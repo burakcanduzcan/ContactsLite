@@ -27,7 +27,7 @@ class ContactsViewHolder(
     fun bindData(contact: Contact) {
         binding.tvName.text = contact.name
         binding.tvSurname.text = contact.surname
-        binding.tvNumber.text = contact.number
+        binding.tvNumber.text = contact.number.printNumber()
         setStars(contact.groups.size)
     }
 

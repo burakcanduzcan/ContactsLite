@@ -2,6 +2,7 @@ package com.burakcanduzcan.contactslite.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.burakcanduzcan.contactslite.R
 import com.burakcanduzcan.contactslite.databinding.ActivityMainBinding
 import com.burakcanduzcan.contactslite.databinding.ItemTabBinding
 import com.burakcanduzcan.contactslite.ui.contacts.ContactsFragment
@@ -14,6 +15,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
 
         setViewPagerAdapter()
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { _, _ ->
@@ -30,7 +33,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun configureTabs() {
         var tab = ItemTabBinding.inflate(layoutInflater)
-        tab.tvBaslik.text = "Contacts"
+        tab.tvBaslik.text = getString(R.string.Contacts)
         binding.tabLayout.getTabAt(0)!!.customView = tab.root
         //...
     }
