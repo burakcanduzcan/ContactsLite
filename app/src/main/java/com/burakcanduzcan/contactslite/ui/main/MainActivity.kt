@@ -16,8 +16,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-
         setViewPagerAdapter()
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { _, _ ->
         }.attach()
