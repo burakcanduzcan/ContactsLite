@@ -3,11 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/ContactsLite/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1575" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/ContactsLite/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.1575" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/ContactsLite/app/src/main/res/drawable/ic_baseline_dialpad_24.xml" value="0.1575" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/ContactsLite/app/src/main/res/drawable/ic_baseline_groups_24.xml" value="0.1575" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/ContactsLite/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1575" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/ContactsLite/app/src/main/res/layout/activity_main.xml" value="0.221875" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/ContactsLite/app/src/main/res/layout/fragment_contacts.xml" value="0.221875" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/ContactsLite/app/src/main/res/layout/fragment_dialpad.xml" value="0.221875" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/ContactsLite/app/src/main/res/layout/item_contact.xml" value="0.1" />
-        <entry key="..\:/Users/ASUS/AndroidStudioProjects/ContactsLite/app/src/main/res/layout/item_tab.xml" value="0.536" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/ContactsLite/app/src/main/res/layout/item_tab.xml" value="0.264" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/ContactsLite/app/src/main/res/layout/rvc_contact.xml" value="0.221875" />
       </map>
     </option>
