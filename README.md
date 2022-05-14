@@ -9,3 +9,4 @@ Lightweight contacts and phone call application for devices with Android 8.0 (AP
 - Lifecycle
 - ViewModel
 - LiveData
+- Splash Screen API
