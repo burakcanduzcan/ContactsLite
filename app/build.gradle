@@ -69,4 +69,7 @@ dependencies {
     //Annotation processor
     implementation "androidx.lifecycle:lifecycle-common-java8:2.4.1"
 
+    //splashscreen api
+    implementation 'androidx.core:core-splashscreen:1.0.0-beta02'
+
 }
