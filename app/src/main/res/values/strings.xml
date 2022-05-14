@@ -4,4 +4,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="placeholder">placeholder</string>
     <string name="Contacts">Contacts</string>
+    <string name="DialPad">Dial Pad</string>
 </resources>
