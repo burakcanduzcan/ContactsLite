@@ -48,15 +48,7 @@ class ContactsFragment : Fragment() {
             }
         }
 
-        (requireActivity() as MainActivity).binding.fab.setOnClickListener {
-            if (viewModel.allContacts.value!!.isEmpty()) {
-                viewModel.addNewContact("Ali", "Demir", "5301301010")
-                viewModel.addNewContact("Veli", "Demir", "5301301011")
-                viewModel.addNewContact("Ayşe", "Demir", "5301301012")
-            } else {
-                viewModel.addNewContact("Güzin", "Demir", "5301301013")
-            }
-        }
+        (requireActivity() as MainActivity).changeFabAction(::fillDatabase)
 
         return binding.root
     }
@@ -128,6 +120,16 @@ class ContactsFragment : Fragment() {
             it.data = callUri
         }
         startActivity(phoneCallIntent)
+    }
+
+    private fun fillDatabase() {
+        if (viewModel.allContacts.value!!.isEmpty()) {
+            viewModel.addNewContact("Ali", "Demir", "5301301010")
+            viewModel.addNewContact("Veli", "Demir", "5301301011")
+            viewModel.addNewContact("Ayşe", "Demir", "5301301012")
+        } else {
+            viewModel.addNewContact("Güzin", "Demir", "5301301013")
+        }
     }
 
 }
