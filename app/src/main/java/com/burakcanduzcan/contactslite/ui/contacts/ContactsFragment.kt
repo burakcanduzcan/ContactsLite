@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.burakcanduzcan.contactslite.data.ContactApplication
 import com.burakcanduzcan.contactslite.data.entity.Contact
 import com.burakcanduzcan.contactslite.databinding.FragmentContactsBinding
+import com.burakcanduzcan.contactslite.model.PhoneNumber
+import com.burakcanduzcan.contactslite.ui.main.MainActivity
 import com.google.android.material.snackbar.Snackbar
 
 class ContactsFragment : Fragment() {
@@ -34,7 +36,6 @@ class ContactsFragment : Fragment() {
     ): View {
         binding = FragmentContactsBinding.inflate(layoutInflater)
 
-        //binding.rvContacts.layoutManager = LinearLayoutManager(this.context)
         binding.rvContacts.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
@@ -47,20 +48,23 @@ class ContactsFragment : Fragment() {
             }
         }
 
-        //viewModel.addNewContact("Babür", "Şah", "5310001010")
+        (requireActivity() as MainActivity).binding.fab.setOnClickListener {
+            if (viewModel.allContacts.value!!.isEmpty()) {
+                viewModel.addNewContact("Ali", "Demir", "5301301010")
+                viewModel.addNewContact("Veli", "Demir", "5301301011")
+                viewModel.addNewContact("Ayşe", "Demir", "5301301012")
+            } else {
+                viewModel.addNewContact("Güzin", "Demir", "5301301013")
+            }
+        }
 
         return binding.root
     }
 
-
-    //private fun itemClick(i: Int) {
     private fun itemClick(contact: Contact) {
-        //val tmpPhoneNumber = PhoneNumber(phoneNumber = viewModel.listContacts[i].number)
-        //viewModel.uriToBeCalled = tmpPhoneNumber.convertToUri()
-        //requestPermission()
-        Toast.makeText(requireContext(),
-            "Item click on item ${contact.name} function not implemented",
-            Toast.LENGTH_SHORT).show()
+        val phoneNumberToCall = PhoneNumber(phoneNumber = contact.number)
+        viewModel.uriToBeCalled = phoneNumberToCall.convertToUri()
+        requestPermission()
     }
 
     //private fun itemLongClick(i: Int) {
@@ -76,12 +80,12 @@ class ContactsFragment : Fragment() {
                 //permission granted
 
                 //direct phone call
-                //directPhoneCall(viewModel.uriToBeCalled!!)
+                directPhoneCall(viewModel.uriToBeCalled!!)
             } else {
                 //permission denied
 
                 //indirect phone call
-                //indirectPhoneCall(viewModel.uriToBeCalled!!)
+                indirectPhoneCall(viewModel.uriToBeCalled!!)
             }
         }
 
@@ -89,15 +93,15 @@ class ContactsFragment : Fragment() {
         when {
             ContextCompat.checkSelfPermission(requireContext(),
                 Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED -> {
-                //permission is already granted
-                //if it is already granted, it won't fall to permission granted block in result launcher.
-                //it'll have to be handled here:
-                //directPhoneCall(viewModel.uriToBeCalled!!)
+                //permission is already granted:
+                //if it is already granted, it won't fall to permission granted block in result launcher;
+                //it'll have to be handled here.
+                directPhoneCall(viewModel.uriToBeCalled!!)
             }
             ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(),
                 Manifest.permission.CALL_PHONE) -> {
-                //additional rationale should be displayed
-                //show in ui why permission is required and go for request
+                //additional rationale should be displayed:
+                //show in ui why permission is required and go for request.
                 Snackbar.make(requireView(),
                     "Please give permission to make direct call",
                     Snackbar.LENGTH_INDEFINITE).setAction("OK") {
@@ -105,7 +109,7 @@ class ContactsFragment : Fragment() {
                 }.show()
             }
             else -> {
-                //permission is yet to be asked
+                //permission is yet to be asked:
                 requestPermissionResultLauncher.launch(Manifest.permission.CALL_PHONE)
             }
         }
