@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.*
 import com.burakcanduzcan.contactslite.data.dao.ContactDao
 import com.burakcanduzcan.contactslite.data.entity.Contact
+import com.burakcanduzcan.contactslite.model.PhoneNumber
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 
@@ -37,6 +38,10 @@ class ContactsViewModel(private val contactDao: ContactDao) : ViewModel() {
     ) {
         val newContact = getNewContactEntry(contactName, contactSurname, phoneNumber)
         insertContact(newContact)
+    }
+
+    fun setUriToBeCalled(contact: Contact) {
+        this.uriToBeCalled = PhoneNumber(phoneNumber = contact.number).convertToUri()
     }
 }
 

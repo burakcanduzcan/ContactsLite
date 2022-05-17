@@ -54,8 +54,7 @@ class ContactsFragment : Fragment() {
     }
 
     private fun itemClick(contact: Contact) {
-        val phoneNumberToCall = PhoneNumber(phoneNumber = contact.number)
-        viewModel.uriToBeCalled = phoneNumberToCall.convertToUri()
+        viewModel.setUriToBeCalled(contact)
         requestPermission()
     }
 
