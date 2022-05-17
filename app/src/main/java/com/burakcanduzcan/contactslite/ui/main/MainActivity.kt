@@ -8,6 +8,8 @@ import com.burakcanduzcan.contactslite.databinding.ActivityMainBinding
 import com.burakcanduzcan.contactslite.databinding.ItemTabBinding
 import com.burakcanduzcan.contactslite.ui.contacts.ContactsFragment
 import com.burakcanduzcan.contactslite.ui.dialPad.DialPadFragment
+import com.burakcanduzcan.contactslite.ui.groups.GroupsFragment
+import com.burakcanduzcan.contactslite.ui.settings.SettingsFragment
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
@@ -29,7 +31,8 @@ class MainActivity : AppCompatActivity() {
         val adapter = MainViewPagerAdapter(this)
         adapter.addFragment(DialPadFragment())
         adapter.addFragment(ContactsFragment())
-        //...
+        adapter.addFragment(GroupsFragment())
+        adapter.addFragment(SettingsFragment())
         binding.viewPager.adapter = adapter
     }
 
@@ -37,11 +40,17 @@ class MainActivity : AppCompatActivity() {
         var tab = ItemTabBinding.inflate(layoutInflater)
         tab.ivLogo.setImageResource(R.drawable.ic_baseline_dialpad_24)
         binding.tabLayout.getTabAt(0)!!.customView = tab.root
-
         tab = ItemTabBinding.inflate(layoutInflater)
         tab.ivLogo.setImageResource(R.drawable.ic_baseline_person_24)
         binding.tabLayout.getTabAt(1)!!.customView = tab.root
-        //...
+        tab = ItemTabBinding.inflate(layoutInflater)
+        tab.ivLogo.setImageResource(R.drawable.ic_baseline_groups_24)
+        binding.tabLayout.getTabAt(2)!!.customView = tab.root
+        tab = ItemTabBinding.inflate(layoutInflater)
+        tab.ivLogo.setImageResource(R.drawable.ic_baseline_settings_24)
+        binding.tabLayout.getTabAt(3)!!.customView = tab.root
+
+
     }
 
     fun changeFabAction(newFunction: () -> Unit) {
