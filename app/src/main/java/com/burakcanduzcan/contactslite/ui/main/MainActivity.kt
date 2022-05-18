@@ -10,6 +10,7 @@ import com.burakcanduzcan.contactslite.ui.contacts.ContactsFragment
 import com.burakcanduzcan.contactslite.ui.dialPad.DialPadFragment
 import com.burakcanduzcan.contactslite.ui.groups.GroupsFragment
 import com.burakcanduzcan.contactslite.ui.settings.SettingsFragment
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
@@ -24,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         setViewPagerAdapter()
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { _, _ ->
         }.attach()
-        configureTabs()
+        configureTabLayout()
     }
 
     private fun setViewPagerAdapter() {
@@ -36,21 +37,35 @@ class MainActivity : AppCompatActivity() {
         binding.viewPager.adapter = adapter
     }
 
-    private fun configureTabs() {
+    private fun configureTabLayout() {
         var tab = ItemTabBinding.inflate(layoutInflater)
         tab.ivLogo.setImageResource(R.drawable.ic_baseline_dialpad_24)
         binding.tabLayout.getTabAt(0)!!.customView = tab.root
+
         tab = ItemTabBinding.inflate(layoutInflater)
         tab.ivLogo.setImageResource(R.drawable.ic_baseline_person_24)
         binding.tabLayout.getTabAt(1)!!.customView = tab.root
+
         tab = ItemTabBinding.inflate(layoutInflater)
         tab.ivLogo.setImageResource(R.drawable.ic_baseline_groups_24)
         binding.tabLayout.getTabAt(2)!!.customView = tab.root
+
         tab = ItemTabBinding.inflate(layoutInflater)
         tab.ivLogo.setImageResource(R.drawable.ic_baseline_settings_24)
         binding.tabLayout.getTabAt(3)!!.customView = tab.root
 
+        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                //binding.tabLayout.getTabAt(tab!!.position)!!.customView!!.setBackgroundResource(R.color.black)
+            }
 
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                //binding.tabLayout.getTabAt(tab!!.position)!!.customView!!.setBackgroundResource(R.color.primary)
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+        })
     }
 
     fun changeFabAction(newFunction: () -> Unit) {
@@ -58,5 +73,4 @@ class MainActivity : AppCompatActivity() {
             newFunction()
         }
     }
-
 }
