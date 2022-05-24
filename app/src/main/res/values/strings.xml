@@ -5,4 +5,15 @@
     <string name="placeholder">placeholder</string>
     <string name="Contacts">Contacts</string>
     <string name="DialPad">Dial Pad</string>
+    <string name="_1">1</string>
+    <string name="_2">2</string>
+    <string name="_3">3</string>
+    <string name="_4">4</string>
+    <string name="_5">5</string>
+    <string name="_6">6</string>
+    <string name="_7">7</string>
+    <string name="_8">8</string>
+    <string name="_9">9</string>
+    <string name="PLACEHOLDER_COUNTRY_CODE">+90</string>
+    <string name="PLACEHOLDER_PHONE_NUMBER">530 100 0022</string>
 </resources>
