@@ -15,15 +15,15 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.burakcanduzcan.contactslite.data.ContactApplication
+import com.burakcanduzcan.contactslite.ContactApplication
 import com.burakcanduzcan.contactslite.data.entity.Contact
 import com.burakcanduzcan.contactslite.databinding.FragmentContactsBinding
-import com.burakcanduzcan.contactslite.model.PhoneNumber
 import com.burakcanduzcan.contactslite.ui.main.MainActivity
 import com.google.android.material.snackbar.Snackbar
 
 class ContactsFragment : Fragment() {
     private lateinit var binding: FragmentContactsBinding
+
     private val viewModel: ContactsViewModel by activityViewModels {
         ContactsViewModelFactory(
             (activity?.application as ContactApplication).database.contactDao()
