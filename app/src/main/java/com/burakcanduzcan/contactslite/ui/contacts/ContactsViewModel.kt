@@ -9,9 +9,7 @@ import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 
 class ContactsViewModel(private val contactDao: ContactDao) : ViewModel() {
-    val allContacts: LiveData<List<Contact>> =
-        contactDao.getAllContactsAlphabetically().asLiveData()
-
+    val allContacts: LiveData<List<Contact>> = contactDao.getAllContactsAlphabetically()
     var uriToBeCalled: Uri? = null
 
     private fun insertContact(contact: Contact) {

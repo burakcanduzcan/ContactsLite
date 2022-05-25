@@ -1,8 +1,8 @@
 package com.burakcanduzcan.contactslite.data.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.burakcanduzcan.contactslite.data.entity.Contact
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ContactDao {
@@ -18,7 +18,7 @@ interface ContactDao {
 
     @Transaction
     @Query("SELECT * FROM Contact ORDER BY name ASC")
-    fun getAllContactsAlphabetically(): Flow<List<Contact>>
+    fun getAllContactsAlphabetically(): LiveData<List<Contact>>
 
     @Transaction
     @Query("SELECT * FROM Contact WHERE id = :contactId")
