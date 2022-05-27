@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string-array name="country_phone_codes">
-        <item>+90</item>
-        <item>+359</item>
-        <item>+30</item>
-        <item>+995</item>
-    </string-array>
-</resources>

@@ -12,30 +12,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Spinner
-            android:id="@+id/spCountryCode"
+        <com.hbb20.CountryCodePicker
+            android:id="@+id/countryCodePicker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="64dp"
-            android:minHeight="48dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvPhoneNumber"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="SpeakableTextPresentCheck" />
+            app:layout_constraintTop_toTopOf="@+id/tvPhoneNumber"
+            app:ccp_autoDetectCountry="true"/>
 
         <TextView
             android:id="@+id/tvPhoneNumber"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="64dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="32dp"
             android:scrollbars="vertical"
             android:text="@string/PLACEHOLDER_PHONE_NUMBER"
             android:textColor="@color/black"
             android:textSize="24sp"
             app:layout_constraintEnd_toStartOf="@+id/btnBackspace"
-            app:layout_constraintStart_toEndOf="@+id/spCountryCode"
+            app:layout_constraintStart_toEndOf="@+id/countryCodePicker"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton

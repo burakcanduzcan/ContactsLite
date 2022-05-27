@@ -9,20 +9,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import com.burakcanduzcan.contactslite.R
 import com.burakcanduzcan.contactslite.databinding.FragmentDialpadBinding
 import com.google.android.material.snackbar.Snackbar
 
-class DialPadFragment : Fragment(), AdapterView.OnItemSelectedListener,
-    AdapterView.OnItemClickListener {
+class DialPadFragment : Fragment() {
     private lateinit var binding: FragmentDialpadBinding
     private val viewModel: DialPadViewModel by viewModels()
 
@@ -31,8 +25,6 @@ class DialPadFragment : Fragment(), AdapterView.OnItemSelectedListener,
         savedInstanceState: Bundle?,
     ): View {
         binding = FragmentDialpadBinding.inflate(inflater)
-
-        setSpinnerAdapter()
 
         viewModel.enteredPhoneNumber.observe(this.viewLifecycleOwner) { phoneNumber ->
             binding.tvPhoneNumber.text = phoneNumber
@@ -43,21 +35,13 @@ class DialPadFragment : Fragment(), AdapterView.OnItemSelectedListener,
         return binding.root
     }
 
-    private fun setSpinnerAdapter() {
-        ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.country_phone_codes,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            binding.spCountryCode.adapter = adapter
-            binding.spCountryCode.onItemSelectedListener = this
-        }
-    }
-
     private fun initializeButtons() {
         binding.btnBackspace.setOnClickListener {
             viewModel.removeLastDigit()
+        }
+        binding.btnBackspace.setOnLongClickListener {
+            viewModel.removeAllDigits()
+            true
         }
         binding.btn1.setOnClickListener {
             viewModel.addDigit('1')
@@ -90,21 +74,10 @@ class DialPadFragment : Fragment(), AdapterView.OnItemSelectedListener,
             viewModel.addDigit('0')
         }
         binding.btnCall.setOnClickListener {
+            viewModel.setSelectedCountryCode(binding.countryCodePicker.selectedCountryCode)
             viewModel.setUriToBeCalled()
             requestPermission()
         }
-    }
-
-    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-        Toast.makeText(requireContext(),
-            p0!!.getItemAtPosition(p2).toString() + " selected",
-            Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onNothingSelected(p0: AdapterView<*>?) {
-    }
-
-    override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
     }
 
     private val requestPermissionResultLauncher =

@@ -9,7 +9,9 @@ import com.burakcanduzcan.contactslite.model.PhoneNumber
 class DialPadViewModel : ViewModel() {
     private var _enteredPhoneNumber: MutableLiveData<String> = MutableLiveData("")
     val enteredPhoneNumber: LiveData<String> = _enteredPhoneNumber
+
     var uriToBeCalled: Uri? = null
+    private var selectedCountryCode: String = ""
 
     fun addDigit(enteredDigit: Char) {
         _enteredPhoneNumber.value += enteredDigit
@@ -21,10 +23,19 @@ class DialPadViewModel : ViewModel() {
         }
     }
 
+    fun removeAllDigits() {
+        if (_enteredPhoneNumber.value!!.isNotEmpty()) {
+            _enteredPhoneNumber.value = ""
+        }
+    }
+
+    fun setSelectedCountryCode(countryCode: String) {
+        selectedCountryCode = countryCode
+    }
+
     fun setUriToBeCalled() {
         if (_enteredPhoneNumber.value!!.isNotEmpty()) {
-            this.uriToBeCalled =
-                PhoneNumber(phoneNumber = _enteredPhoneNumber.value.toString()).convertToUri()
+            uriToBeCalled = PhoneNumber(selectedCountryCode, _enteredPhoneNumber.value!!).convertToUri()
         }
     }
 }
