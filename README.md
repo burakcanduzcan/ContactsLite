@@ -10,3 +10,4 @@ Lightweight contacts and phone call application for devices with Android 8.0 (AP
 - LiveData
 - Splash Screen API
 - Country Code Picker Library ([link](https://github.com/hbb20/CountryCodePickerProject))
+- SharedPreferences
