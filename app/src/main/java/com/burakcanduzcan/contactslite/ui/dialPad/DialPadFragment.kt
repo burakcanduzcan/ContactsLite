@@ -86,6 +86,9 @@ class DialPadFragment : Fragment(), AdapterView.OnItemSelectedListener,
         binding.btn9.setOnClickListener {
             viewModel.addDigit('9')
         }
+        binding.btn0.setOnClickListener {
+            viewModel.addDigit('0')
+        }
         binding.btnCall.setOnClickListener {
             viewModel.setUriToBeCalled()
             requestPermission()

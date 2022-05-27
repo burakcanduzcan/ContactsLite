@@ -17,31 +17,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="64dp"
             android:minHeight="48dp"
-            android:textColor="@color/black"
-            android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
-            android:id="@+id/tvCountryCode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="64dp"
-            android:layout_marginEnd="12dp"
-            android:text="@string/PLACEHOLDER_COUNTRY_CODE"
-            android:textColor="@color/black"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toStartOf="@+id/tvPhoneNumber"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
             android:id="@+id/tvPhoneNumber"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="64dp"
+            android:layout_marginEnd="16dp"
             android:scrollbars="vertical"
             android:text="@string/PLACEHOLDER_PHONE_NUMBER"
             android:textColor="@color/black"
@@ -60,13 +48,15 @@
             android:tint="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription,UseAppTint" />
+            tools:ignore="ContentDescription,UseAppTint,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
         <Button
             android:id="@+id/btn1"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="64dp"
+            android:layout_marginEnd="4dp"
             android:text="@string/_1"
             android:textSize="28sp"
             app:layout_constraintBottom_toTopOf="@+id/btn4"
@@ -78,7 +68,9 @@
             android:id="@+id/btn2"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="64dp"
+            android:layout_marginEnd="4dp"
             android:text="@string/_2"
             android:textSize="28sp"
             app:layout_constraintBottom_toTopOf="@+id/btn5"
@@ -90,7 +82,9 @@
             android:id="@+id/btn3"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="64dp"
+            android:layout_marginEnd="8dp"
             android:text="@string/_3"
             android:textSize="28sp"
             app:layout_constraintBottom_toTopOf="@+id/btn6"
@@ -102,6 +96,8 @@
             android:id="@+id/btn4"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="4dp"
             android:text="@string/_4"
             android:textSize="28sp"
             app:layout_constraintBottom_toTopOf="@+id/btn7"
@@ -113,6 +109,8 @@
             android:id="@+id/btn5"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
             android:text="@string/_5"
             android:textSize="28sp"
             app:layout_constraintBottom_toTopOf="@+id/btn8"
@@ -124,6 +122,8 @@
             android:id="@+id/btn6"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="8dp"
             android:text="@string/_6"
             android:textSize="28sp"
             app:layout_constraintBottom_toTopOf="@+id/btn9"
@@ -135,6 +135,8 @@
             android:id="@+id/btn7"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="4dp"
             android:text="@string/_7"
             android:textSize="28sp"
             app:layout_constraintBottom_toBottomOf="@+id/btn8"
@@ -146,9 +148,11 @@
             android:id="@+id/btn8"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
             android:text="@string/_8"
             android:textSize="28sp"
-            app:layout_constraintBottom_toTopOf="@+id/btnCall"
+            app:layout_constraintBottom_toTopOf="@+id/btn0"
             app:layout_constraintEnd_toStartOf="@+id/btn9"
             app:layout_constraintStart_toEndOf="@+id/btn7"
             app:layout_constraintTop_toBottomOf="@+id/btn5" />
@@ -157,6 +161,8 @@
             android:id="@+id/btn9"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="8dp"
             android:text="@string/_9"
             android:textSize="28sp"
             app:layout_constraintBottom_toBottomOf="@+id/btn8"
@@ -164,19 +170,30 @@
             app:layout_constraintStart_toEndOf="@+id/btn8"
             app:layout_constraintTop_toBottomOf="@+id/btn6" />
 
+        <Button
+            android:id="@+id/btn0"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="32dp"
+            android:text="@string/_0"
+            android:textSize="28sp"
+            app:layout_constraintBottom_toTopOf="@+id/btnCall"
+            app:layout_constraintEnd_toEndOf="@+id/btn8"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/btn8"
+            app:layout_constraintTop_toBottomOf="@+id/btn8" />
+
         <ImageButton
             android:id="@+id/btnCall"
             android:layout_width="75dp"
             android:layout_height="75dp"
-            android:layout_marginTop="16dp"
             android:layout_marginBottom="32dp"
             android:backgroundTint="#00E676"
             android:src="@drawable/ic_baseline_phone_24"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/btn8"
-            app:layout_constraintStart_toEndOf="@+id/btn7"
-            app:layout_constraintTop_toBottomOf="@+id/btn8"
-            tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="ContentDescription,SpeakableTextPresentCheck,ImageContrastCheck" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

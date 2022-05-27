@@ -6,10 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.burakcanduzcan.contactslite.model.PhoneNumber
 
-class DialPadViewModel: ViewModel() {
+class DialPadViewModel : ViewModel() {
     private var _enteredPhoneNumber: MutableLiveData<String> = MutableLiveData("")
     val enteredPhoneNumber: LiveData<String> = _enteredPhoneNumber
-
     var uriToBeCalled: Uri? = null
 
     fun addDigit(enteredDigit: Char) {
@@ -24,7 +23,8 @@ class DialPadViewModel: ViewModel() {
 
     fun setUriToBeCalled() {
         if (_enteredPhoneNumber.value!!.isNotEmpty()) {
-            this.uriToBeCalled = PhoneNumber(phoneNumber = _enteredPhoneNumber.value.toString()).convertToUri()
+            this.uriToBeCalled =
+                PhoneNumber(phoneNumber = _enteredPhoneNumber.value.toString()).convertToUri()
         }
     }
 }
