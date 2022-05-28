@@ -1,7 +1,9 @@
 package com.burakcanduzcan.contactslite.ui.dialPad
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -19,12 +21,16 @@ import com.google.android.material.snackbar.Snackbar
 class DialPadFragment : Fragment() {
     private lateinit var binding: FragmentDialpadBinding
     private val viewModel: DialPadViewModel by viewModels()
+    private lateinit var pref: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
         binding = FragmentDialpadBinding.inflate(inflater)
+        pref = requireContext().getSharedPreferences(requireActivity().packageName, Context.MODE_PRIVATE)
+
+        binding.countryCodePicker.setCountryForNameCode(pref.getString("defaultCountry", "TR"))
 
         viewModel.enteredPhoneNumber.observe(this.viewLifecycleOwner) { phoneNumber ->
             binding.tvPhoneNumber.text = phoneNumber

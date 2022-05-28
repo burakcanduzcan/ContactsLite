@@ -1,11 +1,15 @@
 package com.burakcanduzcan.contactslite.ui.main
 
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.burakcanduzcan.contactslite.R
 import com.burakcanduzcan.contactslite.databinding.ActivityMainBinding
+import com.burakcanduzcan.contactslite.databinding.PopupSelectCountryBinding
 import com.burakcanduzcan.contactslite.ui.contacts.ContactsFragment
 import com.burakcanduzcan.contactslite.ui.dialPad.DialPadFragment
 import com.burakcanduzcan.contactslite.ui.groups.GroupsFragment
@@ -14,11 +18,13 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var pref: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        pref = getSharedPreferences(packageName, MODE_PRIVATE)
         setContentView(binding.root)
 
         setViewPagerAdapter()
@@ -38,6 +44,10 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }.attach()
+
+        if (pref.getString("defaultCountry", "DEFAULT") == "DEFAULT") {
+            showDefaultCountrySelectionDialog()
+        }
     }
 
     private fun setViewPagerAdapter() {
@@ -52,6 +62,23 @@ class MainActivity : AppCompatActivity() {
     fun changeFabAction(newFunction: () -> Unit) {
         binding.fab.setOnClickListener {
             newFunction()
+            //yet to be used
         }
+    }
+
+    private fun showDefaultCountrySelectionDialog() {
+        val builder = AlertDialog.Builder(this)
+        val bindingAlertDialog = PopupSelectCountryBinding.inflate(LayoutInflater.from(this))
+        builder.setView(bindingAlertDialog.root)
+        builder.setTitle(R.string.please_confirm_your_country)
+        builder.setPositiveButton(R.string.confirm) { _, _ ->
+            pref.edit()
+                .putString("defaultCountry", bindingAlertDialog.countryCodePicker.selectedCountryNameCode)
+                .apply()
+        }
+        builder.setCancelable(false)
+
+
+        builder.show()
     }
 }
