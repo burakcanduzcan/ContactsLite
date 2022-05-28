@@ -17,4 +17,7 @@
     <string name="PLACEHOLDER_COUNTRY_CODE">+90</string>
     <string name="PLACEHOLDER_PHONE_NUMBER">530 100 0022</string>
     <string name="_0">0</string>
+    <string name="please_confirm_your_country">Confirm your country</string>
+    <string name="confirm">Confirm</string>
+    <string name="settings1">Default Country:</string>
 </resources>
