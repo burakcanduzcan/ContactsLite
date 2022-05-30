@@ -13,13 +13,16 @@ import com.burakcanduzcan.contactslite.databinding.ItemContactBinding
 
 class ContactListAdapter(
     private val onContactClicked: (Contact) -> Unit,
-    private val onContactLongClicked: (Contact) -> Unit
+    private val onContactLongClicked: (Contact) -> Unit,
 ) : ListAdapter<Contact, ContactListAdapter.ContactListViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactListViewHolder {
         val from = LayoutInflater.from(parent.context)
         val binding = ItemContactBinding.inflate(from, parent, false)
-        return ContactListViewHolder(parent.context, binding, onContactClicked, onContactLongClicked)
+        return ContactListViewHolder(parent.context,
+            binding,
+            onContactClicked,
+            onContactLongClicked)
     }
 
     override fun onBindViewHolder(holder: ContactListViewHolder, position: Int) {
@@ -31,14 +34,13 @@ class ContactListAdapter(
         private val context: Context,
         private var binding: ItemContactBinding,
         private val onContactClicked: (Contact) -> Unit,
-        private val onContactLongClicked: (Contact) -> Unit
-        ) :
+        private val onContactLongClicked: (Contact) -> Unit,
+    ) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(contact: Contact) {
             binding.apply {
                 tvName.text = contact.name
-                tvSurname.text = contact.surname
                 tvNumber.text = contact.number
 
                 setStars(contact.groups.size)

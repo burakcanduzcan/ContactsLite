@@ -8,4 +8,4 @@ data class Group(
     @PrimaryKey(autoGenerate = true)
     val id: String,
     val name: String,
-    )
+)

@@ -9,8 +9,4 @@ class PhoneNumber(private val countryCode: String, private val phoneNumber: Stri
     fun convertToUri(): Uri {
         return Uri.parse(uriStart + uniqueNumberIdentifier + countryCode + phoneNumber)
     }
-
-    fun printNumber(): String {
-        return phoneNumber
-    }
 }
