@@ -12,36 +12,70 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import com.burakcanduzcan.contactslite.ContactApplication
+import com.burakcanduzcan.contactslite.R
 import com.burakcanduzcan.contactslite.databinding.FragmentDialpadBinding
+import com.burakcanduzcan.contactslite.databinding.PopupSelectCountryBinding
+import com.burakcanduzcan.contactslite.ui.main.MainActivity
 import com.google.android.material.snackbar.Snackbar
 
 class DialPadFragment : Fragment() {
     private lateinit var binding: FragmentDialpadBinding
-    private val viewModel: DialPadViewModel by viewModels()
     private lateinit var pref: SharedPreferences
+
+    private val viewModel: DialPadViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
         binding = FragmentDialpadBinding.inflate(inflater)
-        pref = requireContext().getSharedPreferences(requireActivity().packageName, Context.MODE_PRIVATE)
+        pref = requireContext().getSharedPreferences(requireActivity().packageName,
+            Context.MODE_PRIVATE)
 
-        binding.countryCodePicker.setCountryForNameCode(pref.getString("defaultCountry", "TR"))
+        askOrSetDefaultCountry()
+
+        binding.etPhoneNumber.isEnabled = false
 
         viewModel.enteredPhoneNumber.observe(this.viewLifecycleOwner) { phoneNumber ->
-            binding.tvPhoneNumber.text = phoneNumber
+            binding.etPhoneNumber.setText(phoneNumber)
         }
 
-        initializeButtons()
+        initializeButtonsAndViews()
 
         return binding.root
     }
 
-    private fun initializeButtons() {
+    private fun askOrSetDefaultCountry() {
+        if (pref.getString("defaultCountry", "DEFAULT") == "DEFAULT") {
+            showDefaultCountrySelectionDialog()
+        } else {
+            binding.countryCodePicker.setCountryForNameCode(pref.getString("defaultCountry", "TR"))
+        }
+    }
+
+    private fun showDefaultCountrySelectionDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        val bindingAlertDialog =
+            PopupSelectCountryBinding.inflate(LayoutInflater.from(requireContext()))
+        builder.setView(bindingAlertDialog.root)
+        builder.setTitle(R.string.please_confirm_your_country)
+        builder.setPositiveButton(R.string.confirm) { _, _ ->
+            binding.countryCodePicker.setCountryForNameCode(bindingAlertDialog.countryCodePicker.selectedCountryNameCode)
+            pref.edit()
+                .putString("defaultCountry",
+                    bindingAlertDialog.countryCodePicker.selectedCountryNameCode)
+                .apply()
+        }
+        builder.setCancelable(false)
+        builder.show()
+    }
+
+    private fun initializeButtonsAndViews() {
         binding.btnBackspace.setOnClickListener {
             viewModel.removeLastDigit()
         }
@@ -82,8 +116,11 @@ class DialPadFragment : Fragment() {
         binding.btnCall.setOnClickListener {
             viewModel.setSelectedCountryCode(binding.countryCodePicker.selectedCountryCode)
             viewModel.setUriToBeCalled()
-            requestPermission()
+            if (viewModel.getUriToBeCalled() != null) {
+                requestPermission()
+            }
         }
+        (requireActivity() as MainActivity).setFabVisibility(false)
     }
 
     private val requestPermissionResultLauncher =
@@ -92,12 +129,12 @@ class DialPadFragment : Fragment() {
                 //permission granted
 
                 //direct phone call
-                directPhoneCall(viewModel.uriToBeCalled!!)
+                directPhoneCall(viewModel.getUriToBeCalled()!!)
             } else {
                 //permission denied
 
                 //indirect phone call
-                indirectPhoneCall(viewModel.uriToBeCalled!!)
+                indirectPhoneCall(viewModel.getUriToBeCalled()!!)
             }
         }
 
@@ -108,7 +145,7 @@ class DialPadFragment : Fragment() {
                 //permission is already granted:
                 //if it is already granted, it won't fall to permission granted block in result launcher;
                 //it'll have to be handled here.
-                directPhoneCall(viewModel.uriToBeCalled!!)
+                directPhoneCall(viewModel.getUriToBeCalled()!!)
             }
             ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(),
                 Manifest.permission.CALL_PHONE) -> {

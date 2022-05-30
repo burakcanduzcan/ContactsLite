@@ -9,8 +9,6 @@ data class Contact(
     val id: Int = 0,
     @ColumnInfo(name = "name")
     val name: String,
-    @ColumnInfo(name = "surname")
-    val surname: String,
     @ColumnInfo(name = "number")
     val number: String,
 ) {

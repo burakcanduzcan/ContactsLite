@@ -20,4 +20,10 @@
     <string name="please_confirm_your_country">Confirm your country</string>
     <string name="confirm">Confirm</string>
     <string name="settings1">Default Country:</string>
+    <string name="name">Name</string>
+    <string name="phone_number">Phone number</string>
+    <string name="add">Add</string>
+    <string name="add_new_contact">Add New Contact</string>
+    <string name="entered_phone_number_was_not_valid">Entered phone number was not valid, please try again.</string>
+    <string name="entered_contact_name_cannot_be_blank">Entered contact name cannot be blank.</string>
 </resources>

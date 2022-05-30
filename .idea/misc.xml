@@ -17,12 +17,13 @@
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/ContactsLite/app/src/main/res/drawable/tab_icon_selector.xml" value="0.1525" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/ContactsLite/app/src/main/res/layout/activity_main.xml" value="0.221875" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/ContactsLite/app/src/main/res/layout/fragment_contacts.xml" value="0.221875" />
-        <entry key="..\:/Users/ASUS/AndroidStudioProjects/ContactsLite/app/src/main/res/layout/fragment_dialpad.xml" value="0.264" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/ContactsLite/app/src/main/res/layout/fragment_dialpad.xml" value="0.4139941690962099" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/ContactsLite/app/src/main/res/layout/fragment_groups.xml" value="0.221875" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/ContactsLite/app/src/main/res/layout/fragment_settings.xml" value="0.4463667820069204" />
-        <entry key="..\:/Users/ASUS/AndroidStudioProjects/ContactsLite/app/src/main/res/layout/item_contact.xml" value="0.1" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/ContactsLite/app/src/main/res/layout/item_contact.xml" value="0.4" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/ContactsLite/app/src/main/res/layout/item_tab.xml" value="0.264" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/ContactsLite/app/src/main/res/layout/layout_popup_add_user.xml" value="0.19722222222222222" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/ContactsLite/app/src/main/res/layout/popup_add_user.xml" value="0.4" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/ContactsLite/app/src/main/res/layout/popup_select_country.xml" value="0.48405253283302063" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/ContactsLite/app/src/main/res/layout/rvc_contact.xml" value="0.221875" />
       </map>
