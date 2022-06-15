@@ -1,9 +1,7 @@
 package com.burakcanduzcan.contactslite.ui.dialPad
 
 import android.Manifest
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -16,7 +14,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import com.burakcanduzcan.contactslite.ContactApplication
 import com.burakcanduzcan.contactslite.R
 import com.burakcanduzcan.contactslite.databinding.FragmentDialpadBinding
 import com.burakcanduzcan.contactslite.databinding.PopupSelectCountryBinding
@@ -25,8 +22,7 @@ import com.google.android.material.snackbar.Snackbar
 
 class DialPadFragment : Fragment() {
     private lateinit var binding: FragmentDialpadBinding
-    private lateinit var pref: SharedPreferences
-
+    //private lateinit var pref: SharedPreferences
     private val viewModel: DialPadViewModel by viewModels()
 
     override fun onCreateView(
@@ -34,27 +30,28 @@ class DialPadFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         binding = FragmentDialpadBinding.inflate(inflater)
-        pref = requireContext().getSharedPreferences(requireActivity().packageName,
-            Context.MODE_PRIVATE)
-
-        askOrSetDefaultCountry()
-
-        binding.etPhoneNumber.isEnabled = false
+        //pref = requireContext().getSharedPreferences(requireActivity().packageName, Context.MODE_PRIVATE)
 
         viewModel.enteredPhoneNumber.observe(this.viewLifecycleOwner) { phoneNumber ->
             binding.etPhoneNumber.setText(phoneNumber)
         }
 
-        initializeButtonsAndViews()
+        initializeViewsAndButtons()
 
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        askOrSetDefaultCountry()
+        (requireActivity() as MainActivity).setFabVisibility(false)
+    }
+
     private fun askOrSetDefaultCountry() {
-        if (pref.getString("defaultCountry", "DEFAULT") == "DEFAULT") {
-            showDefaultCountrySelectionDialog()
+        if (viewModel.checkWhetherDefaultCountryIsSet()) {
+            binding.countryCodePicker.setCountryForNameCode(viewModel.getDefaultCountry())
         } else {
-            binding.countryCodePicker.setCountryForNameCode(pref.getString("defaultCountry", "TR"))
+            showDefaultCountrySelectionDialog()
         }
     }
 
@@ -66,16 +63,14 @@ class DialPadFragment : Fragment() {
         builder.setTitle(R.string.please_confirm_your_country)
         builder.setPositiveButton(R.string.confirm) { _, _ ->
             binding.countryCodePicker.setCountryForNameCode(bindingAlertDialog.countryCodePicker.selectedCountryNameCode)
-            pref.edit()
-                .putString("defaultCountry",
-                    bindingAlertDialog.countryCodePicker.selectedCountryNameCode)
-                .apply()
+            viewModel.setDefaultCountry(bindingAlertDialog.countryCodePicker.selectedCountryNameCode)
         }
         builder.setCancelable(false)
         builder.show()
     }
 
-    private fun initializeButtonsAndViews() {
+    private fun initializeViewsAndButtons() {
+        binding.etPhoneNumber.isEnabled = false
         binding.btnBackspace.setOnClickListener {
             viewModel.removeLastDigit()
         }
@@ -120,7 +115,6 @@ class DialPadFragment : Fragment() {
                 requestPermission()
             }
         }
-        (requireActivity() as MainActivity).setFabVisibility(false)
     }
 
     private val requestPermissionResultLauncher =

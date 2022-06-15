@@ -1,15 +1,38 @@
 package com.burakcanduzcan.contactslite.ui.dialPad
 
+import android.app.Application
+import android.content.Context
+import android.content.SharedPreferences
 import android.net.Uri
 import androidx.lifecycle.*
+import com.burakcanduzcan.contactslite.R
 import com.burakcanduzcan.contactslite.model.PhoneNumber
 
-class DialPadViewModel : ViewModel() {
+class DialPadViewModel(application: Application) : AndroidViewModel(application) {
+    private val context = getApplication<Application>()
+    private val pref: SharedPreferences =
+        context.getSharedPreferences(context.getString(R.string.preference_file_key),
+            Context.MODE_PRIVATE)
+
     private var _enteredPhoneNumber: MutableLiveData<String> = MutableLiveData("")
     val enteredPhoneNumber: LiveData<String> = _enteredPhoneNumber
 
     private var uriToBeCalled: Uri? = null
     private var selectedCountryCode: String = ""
+
+    fun checkWhetherDefaultCountryIsSet(): Boolean {
+        return pref.getString("defaultCountry", "DEFAULT") != "DEFAULT"
+    }
+
+    fun getDefaultCountry(): String {
+        return pref.getString("defaultCountry", "TR").toString()
+    }
+
+    fun setDefaultCountry(country: String) {
+        pref.edit()
+            .putString("defaultCountry", country)
+            .apply()
+    }
 
     fun addDigit(enteredDigit: Char) {
         _enteredPhoneNumber.value += enteredDigit

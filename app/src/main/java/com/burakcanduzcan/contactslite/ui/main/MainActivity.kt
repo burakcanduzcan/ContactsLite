@@ -1,6 +1,5 @@
 package com.burakcanduzcan.contactslite.ui.main
 
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -16,13 +15,13 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var pref: SharedPreferences
+    //private lateinit var pref: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        pref = getSharedPreferences(packageName, MODE_PRIVATE)
+        //pref = getSharedPreferences(packageName, MODE_PRIVATE)
         setContentView(binding.root)
 
         setViewPagerAdapter()

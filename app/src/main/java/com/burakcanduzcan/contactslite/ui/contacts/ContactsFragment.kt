@@ -41,8 +41,9 @@ class ContactsFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         binding = FragmentContactsBinding.inflate(layoutInflater)
-        pref = requireContext().getSharedPreferences(requireActivity().packageName,
-            Context.MODE_PRIVATE)
+        pref =
+            requireContext().getSharedPreferences(requireContext().getString(R.string.preference_file_key),
+                Context.MODE_PRIVATE)
 
         binding.rvContacts.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -54,11 +55,13 @@ class ContactsFragment : Fragment() {
                 adapter.submitList(it)
             }
         }
+        return binding.root
+    }
 
+    override fun onResume() {
+        super.onResume()
         (requireActivity() as MainActivity).setFabVisibility(true)
         (requireActivity() as MainActivity).changeFabActionFromFragments(::showAddUserDialog)
-
-        return binding.root
     }
 
     private fun itemClick(contact: Contact) {
@@ -152,7 +155,6 @@ class ContactsFragment : Fragment() {
                     }
                 }
             }
-            .setCancelable(false)
             .show()
     }
 }
