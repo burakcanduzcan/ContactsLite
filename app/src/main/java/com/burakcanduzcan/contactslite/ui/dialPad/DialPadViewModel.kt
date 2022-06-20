@@ -68,4 +68,8 @@ class DialPadViewModel(application: Application) : AndroidViewModel(application)
             null
         }
     }
+
+    fun isValidatorEnabled() : Boolean {
+        return pref.getBoolean("phoneNumberValidator", false)
+    }
 }

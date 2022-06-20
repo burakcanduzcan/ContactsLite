@@ -11,23 +11,23 @@ import com.burakcanduzcan.contactslite.databinding.FragmentSettingsBinding
 class SettingsFragment : Fragment() {
     private lateinit var binding: FragmentSettingsBinding
     private val viewModel: SettingsViewModel by viewModels()
-    //private lateinit var pref: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
         binding = FragmentSettingsBinding.inflate(layoutInflater)
-        //pref = requireContext().getSharedPreferences(requireContext().getString(R.string.preference_file_key), AppCompatActivity.MODE_PRIVATE)
-
-        setupExistingSettings()
 
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        setupExistingSettings()
+    }
+
     private fun setupExistingSettings() {
-        // Settings #1
-        //val settings1: String = pref.getString("defaultCountry", "DEFAULT").toString()
+        // Settings #1 - Default country
         binding.ccpDefaultCountry.setCountryForNameCode(viewModel.getDefaultCountryNameCode())
         binding.btnSetting1.setOnClickListener {
             viewModel.setDefaultCountry(binding.ccpDefaultCountry.selectedCountryNameCode)
@@ -35,6 +35,13 @@ class SettingsFragment : Fragment() {
         }
         binding.ccpDefaultCountry.setOnCountryChangeListener {
             binding.btnSetting1.isEnabled = (viewModel.getDefaultCountryNameCode() != binding.ccpDefaultCountry.selectedCountryNameCode)
+        }
+
+
+        // Settings #2 - Phone number validator
+        binding.cBoxSetting2.isChecked = viewModel.isPhoneNumberValidatorEnabled()
+        binding.cBoxSetting2.setOnCheckedChangeListener { _, _ ->
+            viewModel.changePhoneNumberValidatorSettings()
         }
 
         // ...

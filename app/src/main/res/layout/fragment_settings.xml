@@ -17,9 +17,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="32dp"
-            android:text="@string/settings1"
+            android:text="@string/setting1"
             android:textColor="@color/black"
-            android:textSize="20sp"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -51,5 +51,48 @@
             app:layout_constraintEnd_toEndOf="@+id/ccpDefaultCountry"
             app:layout_constraintStart_toStartOf="@+id/ccpDefaultCountry"
             app:layout_constraintTop_toBottomOf="@+id/ccpDefaultCountry" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/mDivider1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSetting1" />
+
+        <TextView
+            android:id="@+id/tvSetting2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="48dp"
+            android:text="@string/setting2"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnSetting1" />
+
+        <CheckBox
+            android:id="@+id/cBoxSetting2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvSetting2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.25"
+            app:layout_constraintStart_toEndOf="@+id/tvSetting2"
+            app:layout_constraintTop_toTopOf="@+id/tvSetting2" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/mDivider2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cBoxSetting2" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

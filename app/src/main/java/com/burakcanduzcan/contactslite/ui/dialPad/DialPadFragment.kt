@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
@@ -22,7 +23,6 @@ import com.google.android.material.snackbar.Snackbar
 
 class DialPadFragment : Fragment() {
     private lateinit var binding: FragmentDialpadBinding
-    //private lateinit var pref: SharedPreferences
     private val viewModel: DialPadViewModel by viewModels()
 
     override fun onCreateView(
@@ -30,13 +30,12 @@ class DialPadFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         binding = FragmentDialpadBinding.inflate(inflater)
-        //pref = requireContext().getSharedPreferences(requireActivity().packageName, Context.MODE_PRIVATE)
 
         viewModel.enteredPhoneNumber.observe(this.viewLifecycleOwner) { phoneNumber ->
             binding.etPhoneNumber.setText(phoneNumber)
         }
 
-        initializeViewsAndButtons()
+        initializeViews()
 
         return binding.root
     }
@@ -69,8 +68,9 @@ class DialPadFragment : Fragment() {
         builder.show()
     }
 
-    private fun initializeViewsAndButtons() {
+    private fun initializeViews() {
         binding.etPhoneNumber.isEnabled = false
+        binding.countryCodePicker.registerCarrierNumberEditText(binding.etPhoneNumber)
         binding.btnBackspace.setOnClickListener {
             viewModel.removeLastDigit()
         }
@@ -111,8 +111,17 @@ class DialPadFragment : Fragment() {
         binding.btnCall.setOnClickListener {
             viewModel.setSelectedCountryCode(binding.countryCodePicker.selectedCountryCode)
             viewModel.setUriToBeCalled()
+
             if (viewModel.getUriToBeCalled() != null) {
-                requestPermission()
+                if (viewModel.isValidatorEnabled()) {
+                    if (binding.countryCodePicker.isValidFullNumber) {
+                        requestPermission()
+                    } else {
+                        Snackbar.make(requireView(), "Entered phone number is not valid", Snackbar.LENGTH_SHORT).show()
+                    }
+                } else {
+                    requestPermission()
+                }
             }
         }
     }

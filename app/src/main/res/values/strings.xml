@@ -19,7 +19,8 @@
     <string name="_0">0</string>
     <string name="please_confirm_your_country">Confirm your country</string>
     <string name="confirm">Confirm</string>
-    <string name="settings1">Default Country:</string>
+    <string name="setting1">Default Country</string>
+    <string name="setting2">Phone Number Validator</string>
     <string name="name">Name</string>
     <string name="phone_number">Phone number</string>
     <string name="add">Add</string>
