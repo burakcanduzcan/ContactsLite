@@ -5,12 +5,15 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.burakcanduzcan.contactslite.data.dao.ContactDao
+import com.burakcanduzcan.contactslite.data.dao.GroupDao
 import com.burakcanduzcan.contactslite.data.entity.Contact
+import com.burakcanduzcan.contactslite.data.entity.Group
 
-@Database(entities = [Contact::class], version = 1, exportSchema = false)
+@Database(entities = [Contact::class, Group::class], version = 1, exportSchema = false)
 abstract class ContactRoomDatabase : RoomDatabase() {
 
     abstract fun contactDao(): ContactDao
+    abstract fun groupDao(): GroupDao
 
     companion object {
         @Volatile
