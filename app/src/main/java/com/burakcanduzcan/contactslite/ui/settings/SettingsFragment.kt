@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.burakcanduzcan.contactslite.databinding.FragmentSettingsBinding
+import com.burakcanduzcan.contactslite.ui.main.MainActivity
 
 class SettingsFragment : Fragment() {
     private lateinit var binding: FragmentSettingsBinding
@@ -23,6 +24,7 @@ class SettingsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        (requireActivity() as MainActivity).setFabVisibility(false)
         setupExistingSettings()
     }
 

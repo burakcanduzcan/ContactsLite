@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.contacts.ContactsFragment">
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvContacts"
         android:layout_width="match_parent"
