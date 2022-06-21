@@ -145,14 +145,21 @@ class ContactsFragment : Fragment() {
                         R.string.entered_contact_name_cannot_be_blank,
                         Snackbar.LENGTH_SHORT).show()
                 } else {
-                    if (bindingAlertDialog.ccp.isValidFullNumber) {
+                    //check whether phone number validator is enabled
+                    if (pref.getBoolean("phoneNumberValidator", false)) {
+                        if (bindingAlertDialog.ccp.isValidFullNumber) {
+                            viewModel.addNewContact(bindingAlertDialog.etName.text.toString(),
+                                bindingAlertDialog.ccp.fullNumberWithPlus)
+                        } else {
+                            Snackbar.make(requireView(),
+                                R.string.entered_phone_number_was_not_valid,
+                                Snackbar.LENGTH_SHORT).show()
+                        }
+                    } else {
                         viewModel.addNewContact(bindingAlertDialog.etName.text.toString(),
                             bindingAlertDialog.ccp.fullNumberWithPlus)
-                    } else {
-                        Snackbar.make(requireView(),
-                            R.string.entered_phone_number_was_not_valid,
-                            Snackbar.LENGTH_SHORT).show()
                     }
+
                 }
             }
             .show()
