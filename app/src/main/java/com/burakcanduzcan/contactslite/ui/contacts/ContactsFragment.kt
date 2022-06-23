@@ -25,6 +25,7 @@ import com.burakcanduzcan.contactslite.databinding.FragmentContactsBinding
 import com.burakcanduzcan.contactslite.databinding.PopupAddUserBinding
 import com.burakcanduzcan.contactslite.ui.main.MainActivity
 import com.google.android.material.snackbar.Snackbar
+import timber.log.Timber
 
 class ContactsFragment : Fragment() {
     private lateinit var binding: FragmentContactsBinding
@@ -121,6 +122,7 @@ class ContactsFragment : Fragment() {
             it.data = callUri
         }
         startActivity(phoneCallIntent)
+        Timber.i("An indirect phone call to $callUri")
     }
 
     private fun directPhoneCall(callUri: Uri) {
@@ -129,6 +131,7 @@ class ContactsFragment : Fragment() {
             it.data = callUri
         }
         startActivity(phoneCallIntent)
+        Timber.i("A direct phone call to $callUri")
     }
 
     private fun showAddUserDialog() {
