@@ -11,4 +11,4 @@ Lightweight contacts and phone call application for devices with Android 8.0 (AP
 - Splash Screen API
 - Country Code Picker Library ([link](https://github.com/hbb20/CountryCodePickerProject))
 - SharedPreferences
-- Timber
+- Timber ([link](https://github.com/JakeWharton/timber))
