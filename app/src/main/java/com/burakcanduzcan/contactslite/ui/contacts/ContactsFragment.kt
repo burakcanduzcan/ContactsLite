@@ -67,6 +67,7 @@ class ContactsFragment : Fragment() {
 
     private fun itemClick(contact: Contact) {
         viewModel.setUriToBeCalled(contact)
+        Timber.i("Calling ${contact.name} from contact list")
         requestPermission()
     }
 
@@ -143,6 +144,7 @@ class ContactsFragment : Fragment() {
             .setView(bindingAlertDialog.root)
             .setTitle(getString(R.string.add_new_contact))
             .setPositiveButton(R.string.add) { _, _ ->
+                //check whether name field is empty
                 if (bindingAlertDialog.etName.text.toString().isEmpty()) {
                     Snackbar.make(requireView(),
                         R.string.entered_contact_name_cannot_be_blank,
@@ -151,18 +153,23 @@ class ContactsFragment : Fragment() {
                     //check whether phone number validator is enabled
                     if (pref.getBoolean("phoneNumberValidator", false)) {
                         if (bindingAlertDialog.ccp.isValidFullNumber) {
-                            viewModel.addNewContact(bindingAlertDialog.etName.text.toString(),
-                                bindingAlertDialog.ccp.fullNumberWithPlus)
+                            viewModel.addNewContact(
+                                bindingAlertDialog.etName.text.toString(),
+                                bindingAlertDialog.ccp.selectedCountryCode,
+                                bindingAlertDialog.etPhoneNumber.text.toString()
+                            )
                         } else {
                             Snackbar.make(requireView(),
                                 R.string.entered_phone_number_was_not_valid,
                                 Snackbar.LENGTH_SHORT).show()
                         }
                     } else {
-                        viewModel.addNewContact(bindingAlertDialog.etName.text.toString(),
-                            bindingAlertDialog.ccp.fullNumberWithPlus)
+                        viewModel.addNewContact(
+                            bindingAlertDialog.etName.text.toString(),
+                            bindingAlertDialog.ccp.selectedCountryCode,
+                            bindingAlertDialog.etPhoneNumber.text.toString()
+                        )
                     }
-
                 }
             }
             .show()

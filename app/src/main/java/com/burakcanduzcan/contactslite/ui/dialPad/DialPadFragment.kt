@@ -70,6 +70,7 @@ class DialPadFragment : Fragment() {
     private fun initializeViews() {
         binding.etPhoneNumber.isEnabled = false
         binding.countryCodePicker.registerCarrierNumberEditText(binding.etPhoneNumber)
+
         binding.btnBackspace.setOnClickListener {
             viewModel.removeLastDigit()
         }

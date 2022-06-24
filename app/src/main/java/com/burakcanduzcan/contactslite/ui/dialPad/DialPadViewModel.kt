@@ -17,8 +17,8 @@ class DialPadViewModel(application: Application) : AndroidViewModel(application)
     private var _enteredPhoneNumber: MutableLiveData<String> = MutableLiveData("")
     val enteredPhoneNumber: LiveData<String> = _enteredPhoneNumber
 
-    private var uriToBeCalled: Uri? = null
     private var selectedCountryCode: String = ""
+    private var uriToBeCalled: Uri? = null
 
     fun checkWhetherDefaultCountryIsSet(): Boolean {
         return pref.getString("defaultCountry", "DEFAULT") != "DEFAULT"

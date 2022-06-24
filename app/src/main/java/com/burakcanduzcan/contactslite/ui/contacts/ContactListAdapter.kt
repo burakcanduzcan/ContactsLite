@@ -37,7 +37,7 @@ class ContactListAdapter(
         fun bind(contact: Contact) {
             binding.apply {
                 tvName.text = contact.name
-                tvNumber.text = contact.number
+                tvNumber.text = "+${contact.countryCode}${contact.number}"
 
                 cl.setOnClickListener {
                     onContactClicked(contact)

@@ -11,10 +11,10 @@ interface ContactDao {
     suspend fun insertContact(contact: Contact)
 
     @Update
-    fun updateContact(contact: Contact)
+    suspend fun updateContact(contact: Contact)
 
     @Delete
-    fun delete(contact: Contact)
+    suspend fun delete(contact: Contact)
 
     @Transaction
     @Query("SELECT * FROM Contact ORDER BY name ASC")

@@ -20,19 +20,22 @@ class ContactsViewModel(private val contactDao: ContactDao) : ViewModel() {
 
     private fun getNewContactEntry(
         contactName: String,
-        phoneNumber: String,
+        contactCountryCode: String,
+        contactPhoneNumber: String,
     ): Contact {
         return Contact(
             name = contactName,
-            number = phoneNumber
+            countryCode = contactCountryCode,
+            number = contactPhoneNumber
         )
     }
 
     fun addNewContact(
         contactName: String,
-        phoneNumber: String,
+        countryCode: String,
+        phoneNumber: String
     ) {
-        val newContact = getNewContactEntry(contactName, phoneNumber)
+        val newContact = getNewContactEntry(contactName, countryCode, phoneNumber)
         insertContact(newContact)
     }
 
