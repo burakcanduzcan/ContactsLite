@@ -10,8 +10,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.LayoutRes
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -148,7 +151,10 @@ class ContactsFragment : Fragment() {
                 if (bindingAlertDialog.etName.text.toString().isEmpty()) {
                     Snackbar.make(requireView(),
                         R.string.entered_contact_name_cannot_be_blank,
-                        Snackbar.LENGTH_SHORT).show()
+                        Snackbar.LENGTH_SHORT)
+                        .setAction(R.string.ok) {
+                        }
+                        .show()
                 } else {
                     //check whether phone number validator is enabled
                     if (pref.getBoolean("phoneNumberValidator", false)) {
@@ -161,7 +167,15 @@ class ContactsFragment : Fragment() {
                         } else {
                             Snackbar.make(requireView(),
                                 R.string.entered_phone_number_was_not_valid,
-                                Snackbar.LENGTH_SHORT).show()
+                                Snackbar.LENGTH_SHORT)
+                                .setAction(R.string.ok) {
+                                }
+                                .addAction(R.layout.snackbar_extra_button,
+                                    getString(R.string.settings)
+                                ) {
+                                    (requireActivity() as MainActivity).changeCurrentViewPagerPage(3)
+                                }
+                                .show()
                         }
                     } else {
                         viewModel.addNewContact(
@@ -173,5 +187,21 @@ class ContactsFragment : Fragment() {
                 }
             }
             .show()
+    }
+
+    private fun Snackbar.addAction(
+        @LayoutRes aLayoutId: Int,
+        @StringRes aLabel: String,
+        aListener: View.OnClickListener?,
+    ): Snackbar {
+        val button = LayoutInflater.from(view.context).inflate(aLayoutId, null) as Button
+        view.findViewById<Button>(com.google.android.material.R.id.snackbar_action).let {
+            button.layoutParams = it.layoutParams
+            (button as? Button)?.setTextColor(it.textColors)
+            (it.parent as? ViewGroup)?.addView(button)
+        }
+        button.text = aLabel
+        button.setOnClickListener { this.dismiss(); aListener?.onClick(it) }
+        return this
     }
 }

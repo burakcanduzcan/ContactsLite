@@ -71,4 +71,10 @@ class MainActivity : AppCompatActivity() {
             newFabAction()
         }
     }
+
+    fun changeCurrentViewPagerPage(pageIndex: Int) {
+        if (pageIndex in 0..3) {
+            binding.viewPager.currentItem = pageIndex
+        }
+    }
 }
