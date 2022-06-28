@@ -37,8 +37,11 @@ class GroupListAdapter(
 
         fun bind(group: Group) {
             binding.apply {
-                tvGroupName.text = group.name
-                tvGroupSize.text = "(${group.memberCount})"
+                if (group.name.length > 20) {
+                    tvGroup.text = "${group.name.take(20)}... (${group.memberCount})"
+                } else {
+                    tvGroup.text = "${group.name} (${group.memberCount})"
+                }
 
                 binding.cl.setOnClickListener {
                     onGroupClicked(group)
