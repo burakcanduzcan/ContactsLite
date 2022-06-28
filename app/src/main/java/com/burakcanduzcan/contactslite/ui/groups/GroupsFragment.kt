@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,7 +34,7 @@ class GroupsFragment : Fragment() {
 
         binding.rvGroups.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        val adapter = GroupListAdapter(::clickItem, ::editItem, ::deleteItem)
+        val adapter = GroupListAdapter(::itemClick, ::editItem, ::deleteItem)
         binding.rvGroups.adapter = adapter
 
         viewModel.allGroups.observe(this.viewLifecycleOwner) { groups ->
@@ -50,17 +49,18 @@ class GroupsFragment : Fragment() {
         super.onResume()
         (requireActivity() as MainActivity).setFabVisibility(true)
         (requireActivity() as MainActivity).changeFabActionFromFragments {
-            showAddGroupDialog()
+            showAddOrEditDialog(true)
         }
     }
 
-    private fun clickItem(group: Group) {
-        Toast.makeText(context, "Function not implemented. ${group.name}", Toast.LENGTH_SHORT)
-            .show()
+    private fun itemClick(group: Group) {
+        /*
+        todo: Group preview
+         */
     }
 
     private fun editItem(group: Group) {
-        showEditDialog(group)
+        showAddOrEditDialog(false, group)
     }
 
     private fun deleteItem(group: Group) {
@@ -74,41 +74,41 @@ class GroupsFragment : Fragment() {
             .show()
     }
 
-    private fun showEditDialog(group: Group) {
-        val bindingUpdateDialog = PopupGroupBinding.inflate(LayoutInflater.from(requireContext()))
-        bindingUpdateDialog.etGroupName.setText(group.name)
+    private fun showAddOrEditDialog(isActionInsertion: Boolean, group: Group? = null) {
+        val bindingGroupDialog = PopupGroupBinding.inflate(LayoutInflater.from(requireContext()))
+        val adb = AlertDialog.Builder(requireContext())
+            .setView(bindingGroupDialog.root)
 
-        AlertDialog.Builder(requireContext())
-            .setView(bindingUpdateDialog.root)
-            .setTitle(getString(R.string.edit_group_name))
-            .setPositiveButton(R.string.update) { _, _ ->
-                if (bindingUpdateDialog.etGroupName.text.toString().isEmpty()) {
-                    Snackbar.make(requireView(),
-                        R.string.entered_group_name_cannot_be_blank,
-                        Snackbar.LENGTH_SHORT).show()
-                } else {
-                    viewModel.editGroup(group, bindingUpdateDialog.etGroupName.text.toString())
+        if (isActionInsertion) {
+            //true: insert
+            adb.setTitle(getString(R.string.add_new_group))
+                .setPositiveButton(R.string.add) { _, _ ->
+                    if (bindingGroupDialog.etGroupName.text.toString().isEmpty()) {
+                        Snackbar.make(requireView(),
+                            R.string.entered_group_name_cannot_be_blank,
+                            Snackbar.LENGTH_SHORT).show()
+                    } else {
+                        viewModel.addNewGroup(bindingGroupDialog.etGroupName.text.toString())
+                    }
                 }
-            }
-            .setNegativeButton(R.string.cancel, null)
-            .show()
-    }
+                .setNegativeButton(R.string.cancel, null)
+        } else {
+            //false: update
+            bindingGroupDialog.etGroupName.setText(group!!.name)
 
-    private fun showAddGroupDialog() {
-        val bindingAlertDialog = PopupGroupBinding.inflate(LayoutInflater.from(requireContext()))
-
-        AlertDialog.Builder(requireContext())
-            .setView(bindingAlertDialog.root)
-            .setTitle(getString(R.string.add_new_group))
-            .setPositiveButton(R.string.add) { _, _ ->
-                if (bindingAlertDialog.etGroupName.text.toString().isEmpty()) {
-                    Snackbar.make(requireView(),
-                        R.string.entered_group_name_cannot_be_blank,
-                        Snackbar.LENGTH_SHORT).show()
-                } else {
-                    viewModel.addNewGroup(bindingAlertDialog.etGroupName.text.toString())
+            adb.setTitle(getString(R.string.edit_group_name))
+                .setPositiveButton(R.string.update) { _, _ ->
+                    if (bindingGroupDialog.etGroupName.text.toString().isEmpty()) {
+                        Snackbar.make(requireView(),
+                            R.string.entered_group_name_cannot_be_blank,
+                            Snackbar.LENGTH_SHORT).show()
+                    } else {
+                        viewModel.editGroup(group, bindingGroupDialog.etGroupName.text.toString())
+                    }
                 }
-            }
-            .show()
+                .setNegativeButton(R.string.cancel, null)
+        }
+
+        adb.show()
     }
 }
