@@ -36,7 +36,8 @@ class SettingsFragment : Fragment() {
             binding.btnSetting1.isEnabled = false
         }
         binding.ccpDefaultCountry.setOnCountryChangeListener {
-            binding.btnSetting1.isEnabled = (viewModel.getDefaultCountryNameCode() != binding.ccpDefaultCountry.selectedCountryNameCode)
+            binding.btnSetting1.isEnabled =
+                (viewModel.getDefaultCountryNameCode() != binding.ccpDefaultCountry.selectedCountryNameCode)
         }
 
 

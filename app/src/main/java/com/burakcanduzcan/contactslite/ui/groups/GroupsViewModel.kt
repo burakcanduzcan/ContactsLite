@@ -14,7 +14,7 @@ class GroupsViewModel(private val groupDao: GroupDao) : ViewModel() {
 
     private fun insertGroup(group: Group) {
         viewModelScope.launch {
-            groupDao.insertGroup(group)
+            groupDao.insert(group)
         }
     }
 
@@ -36,15 +36,15 @@ class GroupsViewModel(private val groupDao: GroupDao) : ViewModel() {
         return Group(oldGroup.id, newGroupName, oldGroup.memberCount)
     }
 
-    fun editGroup(oldGroup: Group, newGroupName: String) {
+    fun updateGroup(oldGroup: Group, newGroupName: String) {
         viewModelScope.launch {
-            groupDao.updateGroup(getUpdatedGroupEntity(oldGroup, newGroupName))
+            groupDao.update(getUpdatedGroupEntity(oldGroup, newGroupName))
         }
     }
 
     fun deleteGroup(group: Group) {
         viewModelScope.launch(Dispatchers.IO) {
-            groupDao.deleteGroup(group)
+            groupDao.delete(group)
         }
     }
 }

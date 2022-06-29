@@ -20,7 +20,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         pref.edit().putString("defaultCountry", countryCode).apply()
     }
 
-    fun isPhoneNumberValidatorEnabled() : Boolean {
+    fun isPhoneNumberValidatorEnabled(): Boolean {
         return pref.getBoolean("phoneNumberValidator", false)
     }
 

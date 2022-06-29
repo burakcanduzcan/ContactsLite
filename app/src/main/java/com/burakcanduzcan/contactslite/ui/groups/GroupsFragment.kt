@@ -103,7 +103,7 @@ class GroupsFragment : Fragment() {
                             R.string.entered_group_name_cannot_be_blank,
                             Snackbar.LENGTH_SHORT).show()
                     } else {
-                        viewModel.editGroup(group, bindingGroupDialog.etGroupName.text.toString())
+                        viewModel.updateGroup(group, bindingGroupDialog.etGroupName.text.toString())
                     }
                 }
                 .setNegativeButton(R.string.cancel, null)

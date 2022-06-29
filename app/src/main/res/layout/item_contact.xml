@@ -8,70 +8,84 @@
 
     <TextView
         android:id="@+id/tvName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="24dp"
-        android:text="@string/placeholder"
+        android:layout_marginEnd="24dp"
+        android:text="ExampleContact"
         android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/ibRename"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/tvNumber"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
-        android:text="@string/placeholder"
+        android:layout_marginTop="8dp"
+        android:text="+905300000000"
         android:textColor="@android:color/darker_gray"
         android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/tvName"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvName"
-        tools:ignore="TextContrastCheck" />
+        tools:ignore="HardcodedText,TextContrastCheck" />
 
-    <ImageView
-        android:id="@+id/ivStar1"
+    <ImageButton
+        android:id="@+id/ibRename"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:elevation="3dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/ivPlus"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription,ImageContrastCheck" />
+        android:layout_marginEnd="2dp"
+        android:backgroundTint="@android:color/holo_green_light"
+        app:layout_constraintBottom_toBottomOf="@+id/ibStar"
+        app:layout_constraintEnd_toStartOf="@+id/ibStar"
+        app:layout_constraintTop_toTopOf="@+id/ibStar"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/ic_baseline_drive_file_rename_outline_24"
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
 
-    <ImageView
-        android:id="@+id/ivStar2"
+    <ImageButton
+        android:id="@+id/ibStar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="6dp"
-        android:elevation="2dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/ivPlus"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription,ImageContrastCheck" />
+        android:layout_marginEnd="2dp"
+        android:backgroundTint="@android:color/holo_orange_light"
+        app:layout_constraintBottom_toBottomOf="@+id/ibDelete"
+        app:layout_constraintEnd_toStartOf="@+id/ibAddToQuickCall"
+        app:layout_constraintTop_toTopOf="@+id/ibDelete"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/ic_baseline_star_24"
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
 
-    <ImageView
-        android:id="@+id/ivStar3"
+    <ImageButton
+        android:id="@+id/ibAddToQuickCall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="-4dp"
-        android:elevation="1dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/ivPlus"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription,ImageContrastCheck" />
+        android:layout_marginEnd="2dp"
+        android:backgroundTint="@android:color/holo_blue_light"
+        app:layout_constraintBottom_toBottomOf="@+id/ibDelete"
+        app:layout_constraintEnd_toStartOf="@+id/ibDelete"
+        app:layout_constraintTop_toTopOf="@+id/ibDelete"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/ic_baseline_group_add_24"
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
 
-    <ImageView
-        android:id="@+id/ivPlus"
+    <ImageButton
+        android:id="@+id/ibDelete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="10dp"
+        android:backgroundTint="#FF0000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_baseline_delete_24"
         tools:ignore="ContentDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

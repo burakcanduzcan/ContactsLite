@@ -8,10 +8,10 @@ import com.burakcanduzcan.contactslite.data.entity.Contact
 interface ContactDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertContact(contact: Contact)
+    suspend fun insert(contact: Contact)
 
     @Update
-    suspend fun updateContact(contact: Contact)
+    suspend fun update(contact: Contact)
 
     @Delete
     suspend fun delete(contact: Contact)

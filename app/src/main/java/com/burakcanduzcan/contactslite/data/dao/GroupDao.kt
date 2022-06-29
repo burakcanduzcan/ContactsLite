@@ -8,13 +8,13 @@ import com.burakcanduzcan.contactslite.data.entity.Group
 interface GroupDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertGroup(group: Group)
+    suspend fun insert(group: Group)
 
     @Update
-    suspend fun updateGroup(group: Group)
+    suspend fun update(group: Group)
 
     @Delete
-    suspend fun deleteGroup(group: Group)
+    suspend fun delete(group: Group)
 
     @Transaction
     @Query("SELECT * FROM `Group` ORDER BY name ASC")
