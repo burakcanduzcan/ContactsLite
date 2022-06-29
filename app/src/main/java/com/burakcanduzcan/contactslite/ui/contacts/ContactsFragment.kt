@@ -11,7 +11,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
@@ -25,8 +24,10 @@ import com.burakcanduzcan.contactslite.ContactApplication
 import com.burakcanduzcan.contactslite.R
 import com.burakcanduzcan.contactslite.data.entity.Contact
 import com.burakcanduzcan.contactslite.databinding.FragmentContactsBinding
-import com.burakcanduzcan.contactslite.databinding.PopupAddUserBinding
+import com.burakcanduzcan.contactslite.databinding.FragmentDialpadBinding
+import com.burakcanduzcan.contactslite.databinding.PopupUserBinding
 import com.burakcanduzcan.contactslite.ui.main.MainActivity
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import timber.log.Timber
 
@@ -51,7 +52,13 @@ class ContactsFragment : Fragment() {
 
         binding.rvContacts.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        val adapter = ContactListAdapter(::itemClick, ::itemLongClick)
+        val adapter =
+            ContactListAdapter(
+                ::itemClick,
+                ::editClick,
+                ::starClick,
+                ::addToQuickCallClick,
+                ::deleteClick)
         binding.rvContacts.adapter = adapter
 
         viewModel.allContacts.observe(this.viewLifecycleOwner) { contacts ->
@@ -65,7 +72,9 @@ class ContactsFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         (requireActivity() as MainActivity).setFabVisibility(true)
-        (requireActivity() as MainActivity).changeFabActionFromFragments(::showAddUserDialog)
+        (requireActivity() as MainActivity).changeFabActionFromFragments() {
+            showAddOrEditUserDialog(isActionInsertion = true)
+        }
     }
 
     private fun itemClick(contact: Contact) {
@@ -74,10 +83,32 @@ class ContactsFragment : Fragment() {
         requestPermission()
     }
 
-    private fun itemLongClick(contact: Contact) {
-        Toast.makeText(requireContext(),
-            "Item long click on item ${contact.name} function not implemented",
-            Toast.LENGTH_SHORT).show()
+    private fun editClick(contact: Contact) {
+        showAddOrEditUserDialog(isActionInsertion = false, contact)
+    }
+
+    private fun starClick(contact: Contact) {
+        val bindingQuickcallAdd = FragmentDialpadBinding.inflate(LayoutInflater.from(requireContext()))
+        AlertDialog.Builder(requireContext())
+            .setView(bindingQuickcallAdd.root)
+            .show()
+    }
+
+    private fun addToQuickCallClick(contact: Contact) {
+        /*
+        todo: not implemented
+         */
+    }
+
+    private fun deleteClick(contact: Contact) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setMessage(getString(R.string.are_you_sure_you_want_to_delete_this_contact))
+            .setPositiveButton(getString(R.string.delete)) { _, _ ->
+                viewModel.deleteContact(contact)
+            }
+            .setNegativeButton(getString(R.string.cancel)) { _, _ ->
+            }
+            .show()
     }
 
     private val requestPermissionResultLauncher =
@@ -138,17 +169,23 @@ class ContactsFragment : Fragment() {
         Timber.i("A direct phone call to $callUri")
     }
 
-    private fun showAddUserDialog() {
-        val bindingAlertDialog = PopupAddUserBinding.inflate(LayoutInflater.from(requireContext()))
-        bindingAlertDialog.ccp.registerCarrierNumberEditText(bindingAlertDialog.etPhoneNumber)
-        bindingAlertDialog.ccp.setCountryForNameCode(pref.getString("defaultCountry", "TR"))
+    private fun showAddOrEditUserDialog(
+        isActionInsertion: Boolean,
+        existingContact: Contact? = null,
+    ) {
+        val bindingUserDialog = PopupUserBinding.inflate(LayoutInflater.from(requireContext()))
+        bindingUserDialog.ccp.registerCarrierNumberEditText(bindingUserDialog.etPhoneNumber)
 
-        AlertDialog.Builder(requireContext())
-            .setView(bindingAlertDialog.root)
-            .setTitle(getString(R.string.add_new_contact))
-            .setPositiveButton(R.string.add) { _, _ ->
+        val adb = AlertDialog.Builder(requireContext())
+            .setView(bindingUserDialog.root)
+
+        if (isActionInsertion) {
+            //insert
+            bindingUserDialog.ccp.setCountryForNameCode(pref.getString("defaultCountry", "TR"))
+            adb.setTitle(getString(R.string.add_new_contact))
+            adb.setPositiveButton(R.string.add) { _, _ ->
                 //check whether name field is empty
-                if (bindingAlertDialog.etName.text.toString().isEmpty()) {
+                if (bindingUserDialog.etName.text.toString().isEmpty()) {
                     Snackbar.make(requireView(),
                         R.string.entered_contact_name_cannot_be_blank,
                         Snackbar.LENGTH_SHORT)
@@ -158,11 +195,11 @@ class ContactsFragment : Fragment() {
                 } else {
                     //check whether phone number validator is enabled
                     if (pref.getBoolean("phoneNumberValidator", false)) {
-                        if (bindingAlertDialog.ccp.isValidFullNumber) {
+                        if (bindingUserDialog.ccp.isValidFullNumber) {
                             viewModel.addNewContact(
-                                bindingAlertDialog.etName.text.toString(),
-                                bindingAlertDialog.ccp.selectedCountryCode,
-                                bindingAlertDialog.etPhoneNumber.text.toString()
+                                bindingUserDialog.etName.text.toString(),
+                                bindingUserDialog.ccp.selectedCountryCode,
+                                bindingUserDialog.etPhoneNumber.text.toString()
                             )
                         } else {
                             Snackbar.make(requireView(),
@@ -179,14 +216,65 @@ class ContactsFragment : Fragment() {
                         }
                     } else {
                         viewModel.addNewContact(
-                            bindingAlertDialog.etName.text.toString(),
-                            bindingAlertDialog.ccp.selectedCountryCode,
-                            bindingAlertDialog.etPhoneNumber.text.toString()
+                            bindingUserDialog.etName.text.toString(),
+                            bindingUserDialog.ccp.selectedCountryCode,
+                            bindingUserDialog.etPhoneNumber.text.toString()
                         )
                     }
                 }
             }
-            .show()
+        } else {
+            //edit
+            bindingUserDialog.ccp.setCountryForPhoneCode(Integer.valueOf(existingContact!!.countryCode))
+            bindingUserDialog.etName.setText(existingContact.name)
+            bindingUserDialog.etPhoneNumber.setText(existingContact.number)
+            adb.setTitle(getString(R.string.edit_contact))
+            adb.setPositiveButton(R.string.update) { _, _ ->
+                //check whether name field is empty
+                if (bindingUserDialog.etName.text.toString().isEmpty()) {
+                    Snackbar.make(requireView(),
+                        R.string.entered_contact_name_cannot_be_blank,
+                        Snackbar.LENGTH_SHORT)
+                        .setAction(R.string.ok) {
+                        }
+                        .show()
+                } else {
+                    //check whether phone number validator is enabled
+                    if (pref.getBoolean("phoneNumberValidator", false)) {
+                        if (bindingUserDialog.ccp.isValidFullNumber) {
+                            viewModel.updateContact(
+                                existingContact,
+                                bindingUserDialog.etName.text.toString(),
+                                bindingUserDialog.ccp.selectedCountryCode,
+                                bindingUserDialog.etPhoneNumber.text.toString()
+                            )
+                        } else {
+                            Snackbar.make(requireView(),
+                                R.string.entered_phone_number_was_not_valid,
+                                Snackbar.LENGTH_SHORT)
+                                .setAction(R.string.ok) {
+                                }
+                                .addAction(R.layout.snackbar_extra_button,
+                                    getString(R.string.settings)
+                                ) {
+                                    (requireActivity() as MainActivity).changeCurrentViewPagerPage(3)
+                                }
+                                .show()
+                        }
+                    } else {
+                        viewModel.updateContact(
+                            existingContact,
+                            bindingUserDialog.etName.text.toString(),
+                            bindingUserDialog.ccp.selectedCountryCode,
+                            bindingUserDialog.etPhoneNumber.text.toString()
+                        )
+                    }
+                }
+            }
+        }
+
+        adb.setNegativeButton(R.string.cancel, null)
+        adb.show()
     }
 
     private fun Snackbar.addAction(

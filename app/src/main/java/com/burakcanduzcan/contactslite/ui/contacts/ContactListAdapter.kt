@@ -10,7 +10,10 @@ import com.burakcanduzcan.contactslite.databinding.ItemContactBinding
 
 class ContactListAdapter(
     private val onContactClicked: (Contact) -> Unit,
-    private val onContactLongClicked: (Contact) -> Unit,
+    private val contactEditButtonClick: (Contact) -> Unit,
+    private val contactStarButtonClick: (Contact) -> Unit,
+    private val contactAddToQuickCallButtonClick: (Contact) -> Unit,
+    private val contactDeleteButtonClick: (Contact) -> Unit,
 ) : ListAdapter<Contact, ContactListAdapter.ContactListViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactListViewHolder {
@@ -19,7 +22,10 @@ class ContactListAdapter(
         return ContactListViewHolder(
             binding,
             onContactClicked,
-            onContactLongClicked)
+            contactEditButtonClick,
+            contactStarButtonClick,
+            contactAddToQuickCallButtonClick,
+            contactDeleteButtonClick)
     }
 
     override fun onBindViewHolder(holder: ContactListViewHolder, position: Int) {
@@ -30,21 +36,35 @@ class ContactListAdapter(
     class ContactListViewHolder(
         private var binding: ItemContactBinding,
         private val onContactClicked: (Contact) -> Unit,
-        private val onContactLongClicked: (Contact) -> Unit,
+        private val contactEditButtonClick: (Contact) -> Unit,
+        private val contactStarButtonClick: (Contact) -> Unit,
+        private val contactAddToQuickCallButtonClick: (Contact) -> Unit,
+        private val contactDeleteButtonClick: (Contact) -> Unit,
     ) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(contact: Contact) {
             binding.apply {
-                tvName.text = contact.name
+                if (contact.name.length > 20) {
+                    tvName.text = "contact.name.take(20)..."
+                } else {
+                    tvName.text = contact.name
+                }
                 tvNumber.text = "+${contact.countryCode}${contact.number}"
-
                 cl.setOnClickListener {
                     onContactClicked(contact)
                 }
-                cl.setOnLongClickListener {
-                    onContactLongClicked(contact)
-                    true
+                ibRename.setOnClickListener {
+                    contactEditButtonClick(contact)
+                }
+                ibStar.setOnClickListener {
+                    contactStarButtonClick(contact)
+                }
+                ibAddToQuickCall.setOnClickListener {
+                    contactAddToQuickCallButtonClick(contact)
+                }
+                ibDelete.setOnClickListener {
+                    contactDeleteButtonClick(contact)
                 }
             }
         }

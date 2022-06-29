@@ -11,5 +11,9 @@ data class Contact(
     @ColumnInfo(name = "countryCode")
     val countryCode: String,
     @ColumnInfo(name = "number")
-    val number: String
+    val number: String,
+    @ColumnInfo(name = "addDate")
+    val addDate: String,
+    @ColumnInfo(name = "lastUpdated")
+    val lastUpdated: String = "never",
 )
