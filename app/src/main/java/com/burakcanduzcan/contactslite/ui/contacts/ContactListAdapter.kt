@@ -10,10 +10,10 @@ import com.burakcanduzcan.contactslite.databinding.ItemContactBinding
 
 class ContactListAdapter(
     private val onContactClicked: (Contact) -> Unit,
-    private val contactEditButtonClick: (Contact) -> Unit,
-    private val contactStarButtonClick: (Contact) -> Unit,
-    private val contactAddToQuickCallButtonClick: (Contact) -> Unit,
-    private val contactDeleteButtonClick: (Contact) -> Unit,
+    private val onContactEditButtonClick: (Contact) -> Unit,
+    private val onContactAddToQuickCallButtonClick: (Contact) -> Unit,
+    private val onContactAddToGroupButtonClick: (Contact) -> Unit,
+    private val onContactDeleteButtonClick: (Contact) -> Unit,
 ) : ListAdapter<Contact, ContactListAdapter.ContactListViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactListViewHolder {
@@ -22,10 +22,10 @@ class ContactListAdapter(
         return ContactListViewHolder(
             binding,
             onContactClicked,
-            contactEditButtonClick,
-            contactStarButtonClick,
-            contactAddToQuickCallButtonClick,
-            contactDeleteButtonClick)
+            onContactEditButtonClick,
+            onContactAddToQuickCallButtonClick,
+            onContactAddToGroupButtonClick,
+            onContactDeleteButtonClick)
     }
 
     override fun onBindViewHolder(holder: ContactListViewHolder, position: Int) {
@@ -36,35 +36,36 @@ class ContactListAdapter(
     class ContactListViewHolder(
         private var binding: ItemContactBinding,
         private val onContactClicked: (Contact) -> Unit,
-        private val contactEditButtonClick: (Contact) -> Unit,
-        private val contactStarButtonClick: (Contact) -> Unit,
-        private val contactAddToQuickCallButtonClick: (Contact) -> Unit,
-        private val contactDeleteButtonClick: (Contact) -> Unit,
+        private val onContactEditButtonClick: (Contact) -> Unit,
+        private val onContactAddToQuickCallButtonClick: (Contact) -> Unit,
+        private val onContactAddToGroupButtonClick: (Contact) -> Unit,
+        private val onContactDeleteButtonClick: (Contact) -> Unit,
     ) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(contact: Contact) {
             binding.apply {
                 if (contact.name.length > 20) {
-                    tvName.text = "contact.name.take(20)..."
+                    tvName.text = "${contact.name.take(20)}..."
                 } else {
                     tvName.text = contact.name
                 }
                 tvNumber.text = "+${contact.countryCode}${contact.number}"
+
                 cl.setOnClickListener {
                     onContactClicked(contact)
                 }
-                ibRename.setOnClickListener {
-                    contactEditButtonClick(contact)
-                }
-                ibStar.setOnClickListener {
-                    contactStarButtonClick(contact)
+                ibEdit.setOnClickListener {
+                    onContactEditButtonClick(contact)
                 }
                 ibAddToQuickCall.setOnClickListener {
-                    contactAddToQuickCallButtonClick(contact)
+                    onContactAddToQuickCallButtonClick(contact)
+                }
+                ibAddToGroup.setOnClickListener {
+                    onContactAddToGroupButtonClick(contact)
                 }
                 ibDelete.setOnClickListener {
-                    contactDeleteButtonClick(contact)
+                    onContactDeleteButtonClick(contact)
                 }
             }
         }

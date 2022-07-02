@@ -8,16 +8,18 @@ import com.burakcanduzcan.contactslite.model.PhoneNumber
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 class ContactsViewModel(private val contactDao: ContactDao) : ViewModel() {
     val allContacts: LiveData<List<Contact>> = contactDao.getAllContactsAlphabetically()
     var uriToBeCalled: Uri? = null
 
-    private fun insertContact(contact: Contact) {
-        viewModelScope.launch {
-            contactDao.insert(contact)
-        }
+    fun addNewContact(
+        contactName: String,
+        countryCode: String,
+        phoneNumber: String,
+    ) {
+        val newContact = getNewContactEntry(contactName, countryCode, phoneNumber)
+        insertContact(newContact)
     }
 
     private fun getNewContactEntry(
@@ -33,13 +35,27 @@ class ContactsViewModel(private val contactDao: ContactDao) : ViewModel() {
         )
     }
 
-    fun addNewContact(
-        contactName: String,
-        countryCode: String,
-        phoneNumber: String,
+    private fun insertContact(contact: Contact) {
+        viewModelScope.launch {
+            contactDao.insert(contact)
+        }
+    }
+
+    fun getContactFromId(id: Int): Contact {
+        return contactDao.getContactFromId(id)
+    }
+
+    fun updateContact(
+        oldContact: Contact,
+        newName: String,
+        newCountryCode: String,
+        newNumber: String,
     ) {
-        val newContact = getNewContactEntry(contactName, countryCode, phoneNumber)
-        insertContact(newContact)
+        viewModelScope.launch {
+            contactDao.update(
+                getUpdatedContactEntity(oldContact, newName, newCountryCode, newNumber)
+            )
+        }
     }
 
     private fun getUpdatedContactEntity(
@@ -50,25 +66,35 @@ class ContactsViewModel(private val contactDao: ContactDao) : ViewModel() {
     ): Contact {
         return Contact(
             oldContact.id,
-            newName,
-            newCountryCode,
-            newNumber,
+            name = newName,
+            countryCode = newCountryCode,
+            number = newNumber,
             oldContact.addDate,
-            getDate())
+            lastUpdated = getDate(),
+            oldContact.assignedQuickCallNumber)
     }
 
-    fun updateContact(
-        oldContact: Contact,
-        newName: String,
-        newCountryCode: String,
-        newNumber: String,
-    ) {
+    fun updateContactQuickCallField(oldContact: Contact, quickCallField: String) {
         viewModelScope.launch {
-            contactDao.update(getUpdatedContactEntity(oldContact,
-                newName,
-                newCountryCode,
-                newNumber))
+            contactDao.update(
+                getQuickCallUpdatedContactEntity(oldContact, quickCallField)
+            )
         }
+    }
+
+    private fun getQuickCallUpdatedContactEntity(
+        oldContact: Contact,
+        quickCallField: String,
+    ): Contact {
+        return Contact(
+            oldContact.id,
+            oldContact.name,
+            oldContact.countryCode,
+            oldContact.number,
+            oldContact.addDate,
+            oldContact.lastUpdated,
+            assignedQuickCallNumber = quickCallField
+        )
     }
 
     fun deleteContact(contact: Contact) {

@@ -16,7 +16,7 @@
         android:text="ExampleContact"
         android:textColor="@color/black"
         android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/ibRename"
+        app:layout_constraintEnd_toStartOf="@+id/ibEdit"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -38,33 +38,33 @@
         tools:ignore="HardcodedText,TextContrastCheck" />
 
     <ImageButton
-        android:id="@+id/ibRename"
+        android:id="@+id/ibEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="2dp"
         android:backgroundTint="@android:color/holo_green_light"
-        app:layout_constraintBottom_toBottomOf="@+id/ibStar"
-        app:layout_constraintEnd_toStartOf="@+id/ibStar"
-        app:layout_constraintTop_toTopOf="@+id/ibStar"
+        app:layout_constraintBottom_toBottomOf="@+id/ibAddToQuickCall"
+        app:layout_constraintEnd_toStartOf="@+id/ibAddToQuickCall"
+        app:layout_constraintTop_toTopOf="@+id/ibAddToQuickCall"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/ic_baseline_drive_file_rename_outline_24"
-        tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck,ImageContrastCheck" />
 
     <ImageButton
-        android:id="@+id/ibStar"
+        android:id="@+id/ibAddToQuickCall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="2dp"
         android:backgroundTint="@android:color/holo_orange_light"
         app:layout_constraintBottom_toBottomOf="@+id/ibDelete"
-        app:layout_constraintEnd_toStartOf="@+id/ibAddToQuickCall"
+        app:layout_constraintEnd_toStartOf="@+id/ibAddToGroup"
         app:layout_constraintTop_toTopOf="@+id/ibDelete"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/ic_baseline_star_24"
-        tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck,ImageContrastCheck" />
 
     <ImageButton
-        android:id="@+id/ibAddToQuickCall"
+        android:id="@+id/ibAddToGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="2dp"
@@ -74,7 +74,7 @@
         app:layout_constraintTop_toTopOf="@+id/ibDelete"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/ic_baseline_group_add_24"
-        tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck,ImageContrastCheck" />
 
     <ImageButton
         android:id="@+id/ibDelete"
@@ -86,6 +86,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_baseline_delete_24"
-        tools:ignore="ContentDescription" />
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

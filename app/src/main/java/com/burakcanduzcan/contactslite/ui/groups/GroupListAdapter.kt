@@ -46,7 +46,7 @@ class GroupListAdapter(
                 binding.cl.setOnClickListener {
                     onGroupClicked(group)
                 }
-                binding.ibRename.setOnClickListener {
+                binding.ibEdit.setOnClickListener {
                     onGroupEditClicked(group)
                 }
                 binding.ibDelete.setOnClickListener {

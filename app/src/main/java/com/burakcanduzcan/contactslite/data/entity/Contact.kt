@@ -16,4 +16,6 @@ data class Contact(
     val addDate: String,
     @ColumnInfo(name = "lastUpdated")
     val lastUpdated: String = "never",
+    @ColumnInfo(name = "assignedQuickCallNumber")
+    val assignedQuickCallNumber: String = "none",
 )

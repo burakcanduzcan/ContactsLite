@@ -13,8 +13,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
+import com.burakcanduzcan.contactslite.ContactApplication
 import com.burakcanduzcan.contactslite.R
+import com.burakcanduzcan.contactslite.data.entity.Contact
 import com.burakcanduzcan.contactslite.databinding.FragmentDialpadBinding
 import com.burakcanduzcan.contactslite.databinding.PopupSelectCountryBinding
 import com.burakcanduzcan.contactslite.ui.main.MainActivity
@@ -22,7 +24,12 @@ import com.google.android.material.snackbar.Snackbar
 
 class DialPadFragment : Fragment() {
     private lateinit var binding: FragmentDialpadBinding
-    private val viewModel: DialPadViewModel by viewModels()
+    private val viewModel: DialPadViewModel by activityViewModels {
+        DialPadViewModelFactory(
+            activity!!.application,
+            (activity?.application as ContactApplication).database.contactDao()
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,6 +50,8 @@ class DialPadFragment : Fragment() {
         super.onResume()
         askOrSetDefaultCountry()
         (requireActivity() as MainActivity).setFabVisibility(false)
+        setupQuickCalls()
+        viewModel.clearEnteredPhoneNumber()
     }
 
     private fun askOrSetDefaultCountry() {
@@ -123,6 +132,66 @@ class DialPadFragment : Fragment() {
                     }
                 } else {
                     requestPermission()
+                }
+            }
+        }
+    }
+
+    private fun setupQuickCalls() {
+        val buttons = arrayOf(
+            binding.btn0,
+            binding.btn1,
+            binding.btn2,
+            binding.btn3,
+            binding.btn4,
+            binding.btn5,
+            binding.btn6,
+            binding.btn7,
+            binding.btn8,
+            binding.btn9)
+        val textViews = arrayOf(
+            binding.tvBtn0,
+            binding.tvBtn1,
+            binding.tvBtn2,
+            binding.tvBtn3,
+            binding.tvBtn4,
+            binding.tvBtn5,
+            binding.tvBtn6,
+            binding.tvBtn7,
+            binding.tvBtn8,
+            binding.tvBtn9)
+        for (i in 0..9) {
+            val quickCallId = viewModel.getQuickCallIdFromNumber(i)
+
+            if (quickCallId == -1) {
+                //quick call is not set
+                textViews[i].text = ""
+                buttons[i].setOnLongClickListener {
+                    true
+                }
+            } else {
+                //quick call is set
+                val contactSavedToQuickCall: Contact = viewModel.getContactFromId(quickCallId)
+                textViews[i].text = contactSavedToQuickCall.name
+                buttons[i].setOnLongClickListener {
+                    //calling user here
+                    viewModel.setSelectedCountryCode(contactSavedToQuickCall.countryCode)
+                    viewModel.addPhoneNumberAsWhole(contactSavedToQuickCall.number)
+                    viewModel.setUriToBeCalled()
+                    if (viewModel.getUriToBeCalled() != null) {
+                        if (viewModel.isValidatorEnabled()) {
+                            if (binding.countryCodePicker.isValidFullNumber) {
+                                requestPermission()
+                            } else {
+                                Snackbar.make(requireView(),
+                                    "Entered phone number is not valid",
+                                    Snackbar.LENGTH_SHORT).show()
+                            }
+                        } else {
+                            requestPermission()
+                        }
+                    }
+                    true
                 }
             }
         }

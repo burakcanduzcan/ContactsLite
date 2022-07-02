@@ -6,9 +6,12 @@ import android.content.SharedPreferences
 import android.net.Uri
 import androidx.lifecycle.*
 import com.burakcanduzcan.contactslite.R
+import com.burakcanduzcan.contactslite.data.dao.ContactDao
+import com.burakcanduzcan.contactslite.data.entity.Contact
 import com.burakcanduzcan.contactslite.model.PhoneNumber
 
-class DialPadViewModel(application: Application) : AndroidViewModel(application) {
+class DialPadViewModel(application: Application, private val contactDao: ContactDao) :
+    AndroidViewModel(application) {
     private val context = getApplication<Application>()
     private val pref: SharedPreferences =
         context.getSharedPreferences(context.getString(R.string.preference_file_key),
@@ -38,6 +41,10 @@ class DialPadViewModel(application: Application) : AndroidViewModel(application)
         _enteredPhoneNumber.value += enteredDigit
     }
 
+    fun addPhoneNumberAsWhole(phoneNumber: String) {
+        _enteredPhoneNumber.value = phoneNumber
+    }
+
     fun removeLastDigit() {
         if (_enteredPhoneNumber.value!!.isNotEmpty()) {
             _enteredPhoneNumber.value = _enteredPhoneNumber.value!!.dropLast(1)
@@ -52,6 +59,10 @@ class DialPadViewModel(application: Application) : AndroidViewModel(application)
 
     fun setSelectedCountryCode(countryCode: String) {
         selectedCountryCode = countryCode
+    }
+
+    fun clearEnteredPhoneNumber() {
+        removeAllDigits()
     }
 
     fun setUriToBeCalled() {
@@ -69,7 +80,26 @@ class DialPadViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    fun isValidatorEnabled() : Boolean {
+    fun isValidatorEnabled(): Boolean {
         return pref.getBoolean("phoneNumberValidator", false)
+    }
+
+    fun getQuickCallIdFromNumber(number: Int): Int {
+        return pref.getInt("quickCall$number", -1)
+    }
+
+    fun getContactFromId(id: Int): Contact {
+        return contactDao.getContactFromId(id)
+    }
+}
+
+class DialPadViewModelFactory(private val app: Application, private val contactDao: ContactDao) :
+    ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(DialPadViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return DialPadViewModel(app, contactDao) as T
+        }
+        throw IllegalArgumentException("Unknown ViewHolder class")
     }
 }

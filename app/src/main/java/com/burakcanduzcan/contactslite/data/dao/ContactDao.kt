@@ -20,7 +20,6 @@ interface ContactDao {
     @Query("SELECT * FROM Contact ORDER BY name ASC")
     fun getAllContactsAlphabetically(): LiveData<List<Contact>>
 
-    @Transaction
     @Query("SELECT * FROM Contact WHERE id = :contactId")
     fun getContactFromId(contactId: Int): Contact
 

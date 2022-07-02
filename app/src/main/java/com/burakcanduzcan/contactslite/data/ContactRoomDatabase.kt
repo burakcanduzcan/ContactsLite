@@ -26,6 +26,7 @@ abstract class ContactRoomDatabase : RoomDatabase() {
                     ContactRoomDatabase::class.java,
                     "contact_database")
                     .fallbackToDestructiveMigration()
+                    .allowMainThreadQueries()
                     .build()
                 INSTANCE = instance
                 return instance
