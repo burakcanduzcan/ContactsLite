@@ -1,9 +1,8 @@
 package com.burakcanduzcan.contactslite.ui.main
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.res.ResourcesCompat
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.burakcanduzcan.contactslite.R
 import com.burakcanduzcan.contactslite.databinding.ActivityMainBinding
@@ -11,6 +10,7 @@ import com.burakcanduzcan.contactslite.ui.contacts.ContactsFragment
 import com.burakcanduzcan.contactslite.ui.dialPad.DialPadFragment
 import com.burakcanduzcan.contactslite.ui.groups.GroupsFragment
 import com.burakcanduzcan.contactslite.ui.settings.SettingsFragment
+import com.burakcanduzcan.contactslite.utils.getDrawableCompat
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
@@ -23,30 +23,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setViewPagerAdapter()
-        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
-            when (position) {
-                0 -> {
-                    tab.icon = ResourcesCompat.getDrawable(resources,
-                        R.drawable.ic_baseline_dialpad_24,
-                        null)
-                }
-                1 -> {
-                    tab.icon = ResourcesCompat.getDrawable(resources,
-                        R.drawable.ic_baseline_person_24,
-                        null)
-                }
-                2 -> {
-                    tab.icon = ResourcesCompat.getDrawable(resources,
-                        R.drawable.ic_baseline_groups_24,
-                        null)
-                }
-                3 -> {
-                    tab.icon = ResourcesCompat.getDrawable(resources,
-                        R.drawable.ic_baseline_settings_24,
-                        null)
-                }
-            }
-        }.attach()
+        initTabLayout()
     }
 
     private fun setViewPagerAdapter() {
@@ -57,6 +34,20 @@ class MainActivity : AppCompatActivity() {
         adapter.addFragment(SettingsFragment())
         binding.viewPager.adapter = adapter
     }
+
+    private fun initTabLayout() {
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+            tab.icon = getTabIconByPosition(position)
+        }.attach()
+    }
+
+    private fun getTabIconByPosition(position: Int) = when (position) {
+        0 -> R.drawable.ic_baseline_dialpad_24
+        1 -> R.drawable.ic_baseline_person_24
+        2 -> R.drawable.ic_baseline_groups_24
+        3 -> R.drawable.ic_baseline_settings_24
+        else -> null
+    }?.let(::getDrawableCompat)
 
     fun setFabVisibility(visible: Boolean) {
         if (visible) {
